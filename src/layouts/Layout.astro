@@ -1,0 +1,96 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { brand } from '../config/brand';
+import '../styles/global.css';
+import '@fontsource/inter/latin-400';
+import '@fontsource/inter/latin-500';
+import '@fontsource/inter/latin-600';
+import '@fontsource/inter/latin-700';
+import '@fontsource/big-shoulders-display/latin-400';
+import '@fontsource/big-shoulders-display/latin-500';
+import '@fontsource/big-shoulders-display/latin-600';
+import '@fontsource/big-shoulders-display/latin-700';
+import '@fontsource/big-shoulders-display/latin-800';
+
+interface Props {
+  title?: string;
+  description?: string;
+  hideCta?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+  stickyCtaLabel?: string;
+  stickyCtaHref?: string;
+  showPartnerLink?: boolean;
+}
+
+const base = import.meta.env.BASE_URL;
+const {
+  title = `${brand.name} – ${brand.tagline}`,
+  description = 'Spezialisierte Reinigung mit über 100 Jahren Erfahrung: Photovoltaikanlagen, Marmor und Naturstein, Pflasterflächen. Kostenlose Einschätzung.',
+  hideCta = false,
+  ctaLabel = 'Angebot anfordern',
+  ctaHref = `${base}#bereiche`,
+  stickyCtaLabel = 'Kostenlos Angebot anfordern',
+  stickyCtaHref = `${base}#bereiche`,
+  showPartnerLink = false,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="icon" href={`${base}assets/favicon/favicon.ico`} sizes="any">
+<link rel="icon" href={`${base}assets/favicon/favicon.svg`} type="image/svg+xml">
+<link rel="apple-touch-icon" href={`${base}assets/favicon/apple-touch-icon.png`}>
+<link rel="manifest" href={`${base}assets/favicon/site.webmanifest`}>
+<meta name="theme-color" content="#0071BC">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} showPartnerLink={showPartnerLink} />
+
+<slot />
+
+<Footer />
+
+{!hideCta && <div class="sticky"><a class="btn" href={stickyCtaHref}>{stickyCtaLabel}</a></div>}
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    els.forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>
+
+</body>
+</html>

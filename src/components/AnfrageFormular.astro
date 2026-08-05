@@ -1,0 +1,216 @@
+---
+/**
+ * Versandweg: aktuell mailto-Übergabe an brand.email (siehe Skript unten) —
+ * funktioniert ohne Backend, aber Fotos müssen im E-Mail-Programm manuell
+ * angehängt werden und es gibt keine serverseitige Validierung/Spam-Prüfung.
+ * Sobald ein echter Formular-Dienst oder Endpunkt feststeht (siehe
+ * UMBAU-BRIEFING.md, Abschnitt 5), hier auf einen echten POST-Endpunkt
+ * umstellen und die mailto-Logik im Script unten entfernen.
+ */
+import { brand } from '../config/brand';
+---
+<section class="band band--dark reveal" id="anfrage">
+  <div class="wrap">
+    <p class="eyebrow on-dark">Ihre Anfrage</p>
+    <h2 class="display">Beschreiben Sie uns Ihr Objekt.</h2>
+    <p class="lead" style="color:#b9bec3">Sie bekommen eine fachliche Einschätzung, keine Standardantwort.</p>
+
+    <div class="formwrap">
+      <ul class="reasons">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Fachliche Einschätzung, kein Standardtext</b><p>Sie bekommen eine Antwort, die auf Ihr Objekt eingeht.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Ein Foto genügt oft schon</b><p>Damit lässt sich der Aufwand häufig einschätzen, ganz ohne Vor-Ort-Termin.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Kostenlos und unverbindlich</b><p>Die Einschätzung kostet Sie nichts und verpflichtet zu nichts.</p></div></li>
+      </ul>
+
+      <div class="formcard">
+        <div id="stageForm">
+          <h3 class="display stage-title">Ihre Anfrage</h3>
+          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Pflichtfelder sind markiert. Alles Weitere klären wir im Gespräch.</p>
+          <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
+
+          <form id="anfrageForm" name="anfrage" method="post" action={`mailto:${brand.email}`} enctype="text/plain" novalidate>
+            <div id="bereicheHidden"></div>
+            <div class="hp" aria-hidden="true">
+              <label for="fWebsite">Firmenwebsite</label>
+              <input type="text" id="fWebsite" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="fields">
+              <div class="f-full"><label for="fName">Name</label><input id="fName" name="name" type="text" required placeholder="Vor- und Nachname"></div>
+              <div><label for="fFirma">Firma / Hausverwaltung <span class="optional-tag">(optional)</span></label><input id="fFirma" name="firma" type="text" placeholder="Falls vorhanden"></div>
+              <div><label for="fMail">E-Mail</label><input id="fMail" name="email" type="email" required placeholder="name@beispiel.at"></div>
+              <div><label for="fTel">Telefon <span class="optional-tag">(optional)</span></label><input id="fTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
+              <div><label for="fPlz">PLZ und Ort</label><input id="fPlz" name="plzOrt" type="text" required placeholder="8041 Graz"></div>
+              <div>
+                <label for="fLeistung">Leistungsbereich</label>
+                <select id="fLeistung" name="leistungsbereich" required>
+                  <option value="" selected disabled>Bitte wählen</option>
+                  <option>Photovoltaik</option>
+                  <option>Marmor &amp; Naturstein</option>
+                  <option>Pflasterfläche</option>
+                  <option>Fassade</option>
+                  <option>Glas</option>
+                  <option>Mehreres</option>
+                </select>
+              </div>
+              <div>
+                <label for="fAuftraggeber">Auftraggeber <span class="optional-tag">(optional)</span></label>
+                <select id="fAuftraggeber" name="auftraggeber">
+                  <option value="" selected>Bitte wählen</option>
+                  <option>Privat</option>
+                  <option>Unternehmen</option>
+                  <option>Öffentlich</option>
+                </select>
+              </div>
+              <div>
+                <label for="fObjekt">Objektart <span class="optional-tag">(optional)</span></label>
+                <select id="fObjekt" name="objektart">
+                  <option value="" selected>Bitte wählen</option>
+                  <option>Wohngebäude</option>
+                  <option>Hotel &amp; Gastro</option>
+                  <option>Handel &amp; Büro</option>
+                  <option>Industrie &amp; Logistik</option>
+                  <option>Denkmalgeschützt</option>
+                  <option>Freifläche</option>
+                </select>
+              </div>
+              <div class="f-full"><label for="fAnliegen">Ihr Anliegen</label><textarea id="fAnliegen" name="anliegen" required rows="4" placeholder="Beschreiben Sie kurz Objekt und Problem."></textarea></div>
+              <div class="f-full">
+                <label for="fFotos">Fotos <span class="optional-tag">(optional)</span></label>
+                <div class="upload" id="uploadZone">
+                  <input id="fFotos" name="fotos" type="file" accept="image/*" multiple aria-describedby="uploadHint">
+                  <p class="upload-hint" id="uploadHint">Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen.</p>
+                </div>
+              </div>
+              <div class="f-full">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="datenschutz" required>
+                  <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben einverstanden.</span>
+                </label>
+              </div>
+            </div>
+            <button class="btn" id="sendBtn" type="submit">Angebot anfordern</button>
+            <p class="consent">Öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Nachricht an {brand.email}. Fotos bitte dort noch einmal manuell anhängen.</p>
+          </form>
+        </div>
+
+        <div id="stageDone" class="hidden">
+          <div class="done">
+            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h3 class="display" style="margin-bottom:10px">Anfrage vorbereitet</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px">Ihr E-Mail-Programm hat sich mit den Angaben geöffnet. Bitte Fotos anhängen und die Nachricht absenden, damit sie bei uns ankommt.</p>
+            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:4px;width:auto">Zurück zum Formular</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ mailTo: brand.email }}>
+  (function () {
+    var form = document.getElementById('anfrageForm');
+    var stageForm = document.getElementById('stageForm');
+    var stageDone = document.getElementById('stageDone');
+    var resetBtn = document.getElementById('resetBtn');
+    var chips = document.getElementById('chips');
+    var bereicheHidden = document.getElementById('bereicheHidden');
+    var uploadZone = document.getElementById('uploadZone');
+    var fileInput = document.getElementById('fFotos');
+    var uploadHint = document.getElementById('uploadHint');
+    if (!form || !stageForm || !stageDone) return;
+
+    function syncBereiche() {
+      if (!chips || !bereicheHidden) return;
+      bereicheHidden.innerHTML = '';
+      chips.querySelectorAll('.chip:not(.chip--none)').forEach(function (c) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'bereiche[]';
+        input.value = c.textContent || '';
+        bereicheHidden.appendChild(input);
+      });
+    }
+    if (chips) {
+      new MutationObserver(syncBereiche).observe(chips, { childList: true });
+      syncBereiche();
+    }
+
+    function defaultHint() {
+      return 'Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen.';
+    }
+    function updateUploadHint() {
+      if (!uploadHint || !fileInput) return;
+      uploadHint.textContent = fileInput.files && fileInput.files.length
+        ? fileInput.files.length + ' Datei(en) ausgewählt — bitte im E-Mail-Programm erneut anhängen.'
+        : defaultHint();
+    }
+    if (uploadZone && fileInput) {
+      ['dragover', 'dragenter'].forEach(function (ev) {
+        uploadZone.addEventListener(ev, function (e) {
+          e.preventDefault();
+          uploadZone.classList.add('is-dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach(function (ev) {
+        uploadZone.addEventListener(ev, function () {
+          uploadZone.classList.remove('is-dragover');
+        });
+      });
+      uploadZone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        if (e.dataTransfer && e.dataTransfer.files.length) {
+          fileInput.files = e.dataTransfer.files;
+          updateUploadHint();
+        }
+      });
+      fileInput.addEventListener('change', updateUploadHint);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var honeypot = form.querySelector('input[name="website"]');
+      if (honeypot && honeypot.value) return;
+
+      if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+
+      var fd = new FormData(form);
+      var bereiche = fd.getAll('bereiche[]').join(', ') || 'keine Angabe';
+      var lines = [
+        'Name: ' + (fd.get('name') || ''),
+        'Firma / Hausverwaltung: ' + (fd.get('firma') || '–'),
+        'E-Mail: ' + (fd.get('email') || ''),
+        'Telefon: ' + (fd.get('telefon') || '–'),
+        'PLZ und Ort: ' + (fd.get('plzOrt') || ''),
+        'Leistungsbereich: ' + (fd.get('leistungsbereich') || ''),
+        'Auftraggeber: ' + (fd.get('auftraggeber') || '–'),
+        'Objektart: ' + (fd.get('objektart') || '–'),
+        'Ausgewählte Bereiche: ' + bereiche,
+        '',
+        'Anliegen:',
+        String(fd.get('anliegen') || ''),
+      ];
+      if (fileInput && fileInput.files && fileInput.files.length) {
+        lines.push('', 'Hinweis: ' + fileInput.files.length + ' Foto(s) bitte manuell an diese E-Mail anhängen.');
+      }
+
+      var leistung = fd.get('leistungsbereich');
+      var subject = 'Anfrage über 123reinigung.at' + (leistung ? ' – ' + leistung : '');
+      var mailto = 'mailto:' + mailTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+      window.location.href = mailto;
+
+      stageForm.classList.add('hidden');
+      stageDone.classList.remove('hidden');
+      stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        stageDone.classList.add('hidden');
+        stageForm.classList.remove('hidden');
+        stageForm.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { brand } from '../config/brand';
+import { BILDER, BILDQUELLEN_LIZENZ } from '../config/bilder';
+
+const bildEintraege = Object.values(BILDER);
+const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
+---
+
+<Layout title={`Impressum – ${brand.name}`}>
+  <section class="band">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h1 class="display">Impressum</h1>
+      <p class="lead">Angaben gemäß § 5 ECG, § 14 UGB, § 63 GewO und § 25 MedienG.</p>
+
+      <div class="legal">
+        <div class="legal-section">
+          <h3 class="display">Diensteanbieter</h3>
+          <p>
+            {brand.name} GmbH<br>
+            Ivica Osim Platz 2/5<br>
+            A-8041 Graz
+          </p>
+          <p>
+            Firmenbuchnummer: [FN wird ergänzt]<br>
+            Firmenbuchgericht: [Landesgericht wird ergänzt]<br>
+            UID-Nummer: [ATU-Nummer wird ergänzt]
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Vertretungsberechtigte Geschäftsführung</h3>
+          <p>[Name der/des Geschäftsführer:in wird ergänzt]</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Kontakt</h3>
+          <p>
+            Telefon: [Telefonnummer wird ergänzt]<br>
+            E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Unternehmensgegenstand</h3>
+          <p>[Unternehmensgegenstand wird ergänzt]</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Mitgliedschaften</h3>
+          <p>
+            Mitglied der Wirtschaftskammer [Bundesland wird ergänzt]<br>
+            Anwendbare Rechtsvorschriften: Gewerbeordnung (<a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener">www.ris.bka.gv.at</a>)
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Aufsichtsbehörde</h3>
+          <p>[zuständige Gewerbebehörde wird ergänzt]</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">EU-Streitschlichtung</h3>
+          <p>
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, abrufbar unter
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
+            Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle [nicht/verpflichtet – wird ergänzt].
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Bildquellen</h3>
+          {quellen.map((quelle) => {
+            const lizenz = BILDQUELLEN_LIZENZ[quelle];
+            return <p>Bildmaterial: {quelle}{lizenz && ` (${lizenz})`}.</p>;
+          })}
+          <p>
+            {bildEintraege.map((bild, i) => (
+              <>
+                {bild.beschreibung} ({bild.quelle}{bild.kiGeneriert && ', mit KI erstellt'})
+                {i < bildEintraege.length - 1 && <br />}
+              </>
+            ))}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

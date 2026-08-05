@@ -1,0 +1,35 @@
+---
+import TileSelect from './TileSelect.astro';
+
+const items = [
+  { value: 'pv-wohnhaus', label: 'PV-Anlage am Wohnhaus', hint: 'Dachanlage, Ein- oder Mehrfamilienhaus' },
+  { value: 'pv-gewerbe', label: 'PV-Anlage auf Gewerbedach', hint: 'Halle, Betrieb, Landwirtschaft' },
+  { value: 'pv-freiflaeche', label: 'PV-Freiflächenanlage', hint: 'Aufgeständert, im Feld' },
+  { value: 'stein-innen', label: 'Natursteinboden innen', hint: 'Marmor, Kalkstein, Granit, Terrazzo' },
+  { value: 'stein-aussen', label: 'Naturstein außen', hint: 'Stufen, Sockel, Fensterbänke' },
+  { value: 'fliesen', label: 'Fliesen & Feinsteinzeug', hint: 'Innen und außen' },
+  { value: 'einfahrt', label: 'Hofeinfahrt & Zufahrt', hint: 'Betonpflaster, Verbundstein' },
+  { value: 'terrasse', label: 'Terrasse & Gartenwege', hint: 'Kleinere Flächen im Wohnbereich' },
+  { value: 'platz', label: 'Platz, Parkplatz & Gelände', hint: 'Große Flächen, auch öffentlich' },
+  { value: 'fassade', label: 'Fassade', hint: 'Putz, Klinker, Naturstein, Glas' },
+  { value: 'glas', label: 'Glas & Fenster', hint: 'Auch in Höhe' },
+  { value: 'anderes', label: 'Etwas anderes', hint: 'Beschreiben Sie es uns' },
+];
+---
+<TileSelect
+  id="bereiche"
+  heading="Was sollen wir reinigen?"
+  lead="Wählen Sie die Bereiche aus, für die Sie ein Angebot möchten. Mehrfachauswahl ist möglich."
+  items={items}
+  orderTitle="Ihre Anfrage"
+  emptyText="Noch nichts ausgewählt. Tippen Sie oben auf die Bereiche, um die es geht."
+  unitSingular="Bereich"
+  unitPlural="Bereiche"
+  itemStatusText="ausgewählt"
+  idleButtonText="Weiter zur Anfrage"
+  activeButtonTemplate="{n} {unit} — weiter zur Anfrage"
+  helperText="Kostenlos und unverbindlich."
+  targetSectionId="anfrage"
+  targetFocusId="fName"
+  targetChipsId="chips"
+/>
