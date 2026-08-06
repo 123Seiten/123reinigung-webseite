@@ -420,6 +420,15 @@ textarea{resize:vertical;min-height:110px}
 .slot small{display:block;font-weight:400;color:var(--grey-500);font-size:.8rem;margin-top:3px}
 .slot:hover{border-color:var(--brand)}
 .slot[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-tint)}
+
+.radio-slot{
+  position:relative;display:block;border:1.5px solid var(--grey-300);background:var(--white);
+  padding:15px 16px;cursor:pointer;font-family:inherit;font-size:.93rem;font-weight:600;color:var(--ink);
+}
+.radio-slot input{position:absolute;opacity:0;width:1px;height:1px}
+.radio-slot:hover{border-color:var(--brand)}
+.radio-slot:has(input:checked){border-color:var(--brand);background:var(--brand-tint)}
+.radio-slot:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:2px}
 .stage-title{margin-bottom:6px}
 .done{text-align:center;padding:12px 0 4px}
 .done-ring{width:64px;height:64px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}

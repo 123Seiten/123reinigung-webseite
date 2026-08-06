@@ -102,6 +102,8 @@ import { brand } from '../config/brand';
 </section>
 
 <script>
+  import { submitForm } from '../lib/formSubmit';
+
   (function () {
     var form = document.getElementById('anfrageForm') as HTMLFormElement | null;
     var stageForm = document.getElementById('stageForm');
@@ -120,7 +122,6 @@ import { brand } from '../config/brand';
     var uploadPreviews = document.getElementById('uploadPreviews');
     if (!form || !stageForm || !stageDone || !stageError || !sendBtn) return;
 
-    var endpoint = (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) || '';
     var MAX_FILES = 10;
     var MAX_SIZE = 10 * 1024 * 1024;
     var MAX_EDGE = 2000;
@@ -265,9 +266,6 @@ import { brand } from '../config/brand';
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      var honeypot = form!.querySelector<HTMLInputElement>('input[name="_gotcha"]');
-      if (honeypot && honeypot.value) return;
-
       if (typeof form!.reportValidity === 'function' && !form!.reportValidity()) return;
 
       sendBtn!.disabled = true;
@@ -282,20 +280,13 @@ import { brand } from '../config/brand';
           fileInput.files = dt.files;
         }
 
-        var data = new FormData(form!);
-        data.delete('_gotcha');
-
-        if (!endpoint) {
-          console.info('[Attrappe] Es wurde nichts versendet.', Object.fromEntries(data as any));
-          showStage('done', true);
+        var result = await submitForm(form!);
+        if (result.status === 'spam') return;
+        if (result.status === 'error') {
+          showStage('error');
           return;
         }
-
-        var res = await fetch(endpoint, { method: 'POST', body: data });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        showStage('done', false);
-      } catch (err) {
-        showStage('error');
+        showStage('done', result.status === 'demo');
       } finally {
         sendBtn!.disabled = false;
         sendBtn!.textContent = originalLabel;
