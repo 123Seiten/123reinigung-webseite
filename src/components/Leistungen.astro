@@ -1,0 +1,40 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const items = [
+  {
+    title: 'Photovoltaik',
+    text: 'Verschmutzte Module liefern weniger Strom — und ein schmaler Streifen an der Unterkante bremst die ganze Reihe mit. Wir reinigen nach Herstellervorgabe, damit Ihre Garantie bestehen bleibt.',
+    href: `${base}leistungen/pv-anlagenreinigung`,
+    label: 'Zur PV-Reinigung',
+  },
+  {
+    title: 'Marmor & Naturstein',
+    text: 'Kalkstein reagiert auf Säure, Feinsteinzeug auf das falsche Pad. Wir kennen jede am Markt erhältliche Steinart und behandeln sie danach.',
+    href: `${base}leistungen/marmor-steinpflege`,
+    label: 'Zur Steinpflege',
+  },
+  {
+    title: 'Pflasterflächen',
+    text: 'Hofeinfahrt, Betriebsgelände oder historischer Platz. Wir reinigen so, dass die Fugen halten — und Sie danach nicht neu verfugen müssen.',
+    href: `${base}leistungen/pflasterflaechen`,
+    label: 'Zu den Pflasterflächen',
+  },
+];
+---
+<section class="band reveal" id="leistungen">
+  <div class="wrap">
+    <div class="rule"></div>
+    <h2 class="display">Drei Spezialisierungen.<br>Ein Anspruch.</h2>
+    <div class="leistungen-grid">
+      {items.map((item) => (
+        <a class="leistung-card" href={item.href}>
+          <h3 class="display">{item.title}</h3>
+          <p>{item.text}</p>
+          <span class="leistung-link">{item.label} →</span>
+        </a>
+      ))}
+    </div>
+    <p class="leistungen-note">Außerdem im Angebot: Fassadenreinigung und Glasreinigung. <a href={`${base}leistungen`}>Anfragen →</a></p>
+  </div>
+</section>

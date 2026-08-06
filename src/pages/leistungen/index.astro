@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Leistungen from '../../components/Leistungen.astro';
+import AnfrageFormular from '../../components/AnfrageFormular.astro';
+---
+<Layout
+  title="Unsere Leistungen | 123Reinigung"
+  description="Drei Spezialisierungen: PV-Anlagenreinigung, Marmor- und Natursteinpflege, Pflasterflächen. Für Privat, Gewerbe und öffentliche Auftraggeber."
+>
+  <section class="hero hero--schmal">
+    <div class="wrap">
+      <div class="hero-content">
+        <p class="eyebrow">Unsere Leistungen</p>
+        <h1 class="display">Drei Spezialisierungen.<br>Ein Anspruch.</h1>
+        <p class="hero-sub">Photovoltaik, Marmor und Naturstein, Pflasterflächen — drei Bereiche, in denen falsche Reinigung teurer ist als gar keine.</p>
+      </div>
+    </div>
+  </section>
+
+  <Leistungen />
+
+  <section class="band band--grey reveal">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h2 class="display">Für wen wir arbeiten</h2>
+      <p class="lead">Alle drei Auftraggebertypen — die Trennung läuft über die Leistung, nicht über den Kundentyp.</p>
+      <ul class="mkt-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Privat</b> Einfahrt, Terrasse, Natursteinboden, Anlage auf dem Dach. Auch der einzelne Fleck ist ein Auftrag.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Unternehmen</b> Hotels, Handelsflächen, Betriebsgelände, Freiflächenanlagen. Reinigung außerhalb der Betriebszeiten ist bei uns die Regel.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Öffentliche Auftraggeber</b> Plätze, Denkmalobjekte, kommunale Anlagen. Mit Dokumentation, Absperrkonzept und Nachweis der eingesetzten Verfahren.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h2 class="display">Außerdem im Angebot</h2>
+      <ul class="mkt-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Fassadenreinigung</b> Von der Glasfassade bis zum denkmalgeschützten Altbau. Verfahren und Druck richten sich nach dem Material.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Glasreinigung</b> Streifenfrei in jeder Höhe, mit entmineralisiertem Wasser, das rückstandsfrei abtrocknet.</p>
+        </li>
+      </ul>
+      <p class="lead" style="margin-top:22px">Beides gehört zum Leistungsumfang, ist aber nicht unser Schwerpunkt. Fragen Sie einfach an — wir sagen Ihnen ehrlich, ob wir der richtige Betrieb dafür sind.</p>
+      <div class="hero-cta" style="margin-top:20px">
+        <a class="btn" href="#anfrage">Anfragen</a>
+      </div>
+    </div>
+  </section>
+
+  <AnfrageFormular />
+</Layout>

@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AnfrageFormular from '../components/AnfrageFormular.astro';
+import { brand } from '../config/brand';
+---
+<Layout
+  title={`Kontakt – ${brand.name}`}
+  description="Beschreiben Sie uns Ihr Objekt — mit oder ohne Foto. Wir melden uns mit einer fachlichen Ersteinschätzung."
+>
+  <section class="hero hero--schmal">
+    <div class="wrap">
+      <div class="hero-content">
+        <p class="eyebrow">Kontakt</p>
+        <h1 class="display">Beschreiben Sie uns Ihr Objekt.</h1>
+        <p class="hero-sub">Sie bekommen eine fachliche Einschätzung, keine Standardantwort.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band reveal">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h2 class="display">So erreichen Sie uns</h2>
+      <ul class="mkt-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>E-Mail</b> <a href={`mailto:${brand.email}`}>{brand.email}</a></p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Telefon</b> [Telefonnummer wird ergänzt]</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg>
+          <p><b>Einsatzgebiet</b> Österreichweit</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <AnfrageFormular />
+</Layout>

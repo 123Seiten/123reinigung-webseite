@@ -1,11 +1,14 @@
 ---
 /**
- * Versandweg: aktuell mailto-Übergabe an brand.email (siehe Skript unten) —
- * funktioniert ohne Backend, aber Fotos müssen im E-Mail-Programm manuell
- * angehängt werden und es gibt keine serverseitige Validierung/Spam-Prüfung.
- * Sobald ein echter Formular-Dienst oder Endpunkt feststeht (siehe
- * UMBAU-BRIEFING.md, Abschnitt 5), hier auf einen echten POST-Endpunkt
- * umstellen und die mailto-Logik im Script unten entfernen.
+ * Attrappe mit vorbereitetem API-Anschluss (UMBAU-BRIEFING.md, Abschnitt 5a).
+ *
+ * PUBLIC_FORM_ENDPOINT leer  → Testbetrieb: kein Netzwerkaufruf, Erfolgsstufe
+ *                               mit Hinweis "Testbetrieb — es wurden keine
+ *                               Daten übertragen."
+ * PUBLIC_FORM_ENDPOINT gesetzt → echter POST via FormData/fetch.
+ *
+ * Die name-Attribute unten sind der Feldvertrag zur künftigen API und
+ * müssen stabil bleiben.
  */
 import { brand } from '../config/brand';
 ---
@@ -28,11 +31,11 @@ import { brand } from '../config/brand';
           <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Pflichtfelder sind markiert. Alles Weitere klären wir im Gespräch.</p>
           <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
 
-          <form id="anfrageForm" name="anfrage" method="post" action={`mailto:${brand.email}`} enctype="text/plain" novalidate>
+          <form id="anfrageForm" name="anfrage" novalidate>
             <div id="bereicheHidden"></div>
             <div class="hp" aria-hidden="true">
-              <label for="fWebsite">Firmenwebsite</label>
-              <input type="text" id="fWebsite" name="website" tabindex="-1" autocomplete="off">
+              <label for="fGotcha">Firmenwebsite</label>
+              <input type="text" id="fGotcha" name="_gotcha" tabindex="-1" autocomplete="off">
             </div>
 
             <div class="fields">
@@ -40,47 +43,26 @@ import { brand } from '../config/brand';
               <div><label for="fFirma">Firma / Hausverwaltung <span class="optional-tag">(optional)</span></label><input id="fFirma" name="firma" type="text" placeholder="Falls vorhanden"></div>
               <div><label for="fMail">E-Mail</label><input id="fMail" name="email" type="email" required placeholder="name@beispiel.at"></div>
               <div><label for="fTel">Telefon <span class="optional-tag">(optional)</span></label><input id="fTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
-              <div><label for="fPlz">PLZ und Ort</label><input id="fPlz" name="plzOrt" type="text" required placeholder="8041 Graz"></div>
-              <div>
-                <label for="fLeistung">Leistungsbereich</label>
-                <select id="fLeistung" name="leistungsbereich" required>
-                  <option value="" selected disabled>Bitte wählen</option>
-                  <option>Photovoltaik</option>
-                  <option>Marmor &amp; Naturstein</option>
-                  <option>Pflasterfläche</option>
-                  <option>Fassade</option>
-                  <option>Glas</option>
-                  <option>Mehreres</option>
-                </select>
-              </div>
-              <div>
+              <div><label for="fPlz">PLZ</label><input id="fPlz" name="plz" type="text" inputmode="numeric" required placeholder="8041"></div>
+              <div><label for="fOrt">Ort <span class="optional-tag">(optional)</span></label><input id="fOrt" name="ort" type="text" placeholder="Graz"></div>
+              <div class="f-full">
                 <label for="fAuftraggeber">Auftraggeber <span class="optional-tag">(optional)</span></label>
                 <select id="fAuftraggeber" name="auftraggeber">
                   <option value="" selected>Bitte wählen</option>
-                  <option>Privat</option>
-                  <option>Unternehmen</option>
-                  <option>Öffentlich</option>
+                  <option value="privat">Privat</option>
+                  <option value="unternehmen">Unternehmen</option>
+                  <option value="oeffentlich">Öffentlich</option>
                 </select>
               </div>
-              <div>
-                <label for="fObjekt">Objektart <span class="optional-tag">(optional)</span></label>
-                <select id="fObjekt" name="objektart">
-                  <option value="" selected>Bitte wählen</option>
-                  <option>Wohngebäude</option>
-                  <option>Hotel &amp; Gastro</option>
-                  <option>Handel &amp; Büro</option>
-                  <option>Industrie &amp; Logistik</option>
-                  <option>Denkmalgeschützt</option>
-                  <option>Freifläche</option>
-                </select>
-              </div>
-              <div class="f-full"><label for="fAnliegen">Ihr Anliegen</label><textarea id="fAnliegen" name="anliegen" required rows="4" placeholder="Beschreiben Sie kurz Objekt und Problem."></textarea></div>
+              <div class="f-full"><label for="fNachricht">Ihr Anliegen</label><textarea id="fNachricht" name="nachricht" required rows="4" placeholder="Beschreiben Sie kurz Objekt und Problem."></textarea></div>
               <div class="f-full">
                 <label for="fFotos">Fotos <span class="optional-tag">(optional)</span></label>
                 <div class="upload" id="uploadZone">
                   <input id="fFotos" name="fotos" type="file" accept="image/*" multiple aria-describedby="uploadHint">
-                  <p class="upload-hint" id="uploadHint">Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen.</p>
+                  <p class="upload-hint" id="uploadHint">Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen. Maximal 10 Fotos, je bis 10 MB.</p>
                 </div>
+                <p class="upload-error" id="uploadError" role="alert"></p>
+                <div class="upload-previews" id="uploadPreviews"></div>
               </div>
               <div class="f-full">
                 <label class="checkbox-label">
@@ -90,16 +72,28 @@ import { brand } from '../config/brand';
               </div>
             </div>
             <button class="btn" id="sendBtn" type="submit">Angebot anfordern</button>
-            <p class="consent">Öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Nachricht an {brand.email}. Fotos bitte dort noch einmal manuell anhängen.</p>
+            <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung dieser Anfrage verwendet.</p>
           </form>
         </div>
 
         <div id="stageDone" class="hidden">
           <div class="done">
             <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
-            <h3 class="display" style="margin-bottom:10px">Anfrage vorbereitet</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px">Ihr E-Mail-Programm hat sich mit den Angaben geöffnet. Bitte Fotos anhängen und die Nachricht absenden, damit sie bei uns ankommt.</p>
-            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:4px;width:auto">Zurück zum Formular</button>
+            <h3 class="display" style="margin-bottom:10px">Anfrage eingegangen</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 8px">Wir melden uns mit einer fachlichen Ersteinschätzung.</p>
+            <p id="doneDemoNote" class="hidden" style="font-size:.84rem;color:var(--grey-500);margin-bottom:8px">Testbetrieb — es wurden keine Daten übertragen.</p>
+            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:12px;width:auto">Weitere Anfrage stellen</button>
+          </div>
+        </div>
+
+        <div id="stageError" class="hidden">
+          <div class="done">
+            <h3 class="display" style="margin-bottom:10px">Das hat nicht geklappt</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:48ch;margin:0 auto 18px">
+              Die Anfrage konnte nicht übermittelt werden. Bitte versuchen Sie es erneut oder schreiben Sie an
+              <a href={`mailto:${brand.email}`}>{brand.email}</a>. Ihre Eingaben sind noch da.
+            </p>
+            <button class="btn btn--sm" id="retryBtn" type="button" style="width:auto">Zurück zum Formular</button>
           </div>
         </div>
       </div>
@@ -107,19 +101,32 @@ import { brand } from '../config/brand';
   </div>
 </section>
 
-<script define:vars={{ mailTo: brand.email }}>
+<script>
   (function () {
-    var form = document.getElementById('anfrageForm');
+    var form = document.getElementById('anfrageForm') as HTMLFormElement | null;
     var stageForm = document.getElementById('stageForm');
     var stageDone = document.getElementById('stageDone');
+    var stageError = document.getElementById('stageError');
+    var doneDemoNote = document.getElementById('doneDemoNote');
     var resetBtn = document.getElementById('resetBtn');
+    var retryBtn = document.getElementById('retryBtn');
+    var sendBtn = document.getElementById('sendBtn') as HTMLButtonElement | null;
     var chips = document.getElementById('chips');
     var bereicheHidden = document.getElementById('bereicheHidden');
     var uploadZone = document.getElementById('uploadZone');
-    var fileInput = document.getElementById('fFotos');
+    var fileInput = document.getElementById('fFotos') as HTMLInputElement | null;
     var uploadHint = document.getElementById('uploadHint');
-    if (!form || !stageForm || !stageDone) return;
+    var uploadError = document.getElementById('uploadError');
+    var uploadPreviews = document.getElementById('uploadPreviews');
+    if (!form || !stageForm || !stageDone || !stageError || !sendBtn) return;
 
+    var endpoint = (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) || '';
+    var MAX_FILES = 10;
+    var MAX_SIZE = 10 * 1024 * 1024;
+    var MAX_EDGE = 2000;
+    var selectedFiles: File[] = [];
+
+    // ---- Kachelauswahl → Hidden-Inputs ----
     function syncBereiche() {
       if (!chips || !bereicheHidden) return;
       bereicheHidden.innerHTML = '';
@@ -128,7 +135,7 @@ import { brand } from '../config/brand';
         input.type = 'hidden';
         input.name = 'bereiche[]';
         input.value = c.textContent || '';
-        bereicheHidden.appendChild(input);
+        bereicheHidden!.appendChild(input);
       });
     }
     if (chips) {
@@ -136,80 +143,177 @@ import { brand } from '../config/brand';
       syncBereiche();
     }
 
+    // ---- Fotoupload: Auswahl, Vorschau, Entfernen ----
     function defaultHint() {
-      return 'Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen.';
+      return 'Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen. Maximal 10 Fotos, je bis 10 MB.';
     }
-    function updateUploadHint() {
-      if (!uploadHint || !fileInput) return;
-      uploadHint.textContent = fileInput.files && fileInput.files.length
-        ? fileInput.files.length + ' Datei(en) ausgewählt — bitte im E-Mail-Programm erneut anhängen.'
+
+    function syncFileInput() {
+      if (!fileInput) return;
+      var dt = new DataTransfer();
+      selectedFiles.forEach(function (f) { dt.items.add(f); });
+      fileInput.files = dt.files;
+    }
+
+    function renderPreviews() {
+      if (!uploadPreviews || !uploadHint) return;
+      uploadPreviews.innerHTML = '';
+      selectedFiles.forEach(function (file, idx) {
+        var item = document.createElement('div');
+        item.className = 'upload-preview-item';
+        var img = document.createElement('img');
+        var url = URL.createObjectURL(file);
+        img.src = url;
+        img.alt = file.name;
+        img.addEventListener('load', function () { URL.revokeObjectURL(url); });
+        var removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'upload-preview-remove';
+        removeBtn.setAttribute('aria-label', 'Foto entfernen: ' + file.name);
+        removeBtn.textContent = '×';
+        removeBtn.addEventListener('click', function () {
+          selectedFiles.splice(idx, 1);
+          syncFileInput();
+          renderPreviews();
+        });
+        item.appendChild(img);
+        item.appendChild(removeBtn);
+        uploadPreviews!.appendChild(item);
+      });
+      uploadHint.textContent = selectedFiles.length
+        ? selectedFiles.length + ' Foto(s) ausgewählt.'
         : defaultHint();
     }
+
+    function addFiles(fileList: FileList | File[]) {
+      var errors: string[] = [];
+      Array.from(fileList).forEach(function (file) {
+        if (selectedFiles.length >= MAX_FILES) { errors.push('Maximal ' + MAX_FILES + ' Fotos möglich.'); return; }
+        if (!file.type.startsWith('image/')) { errors.push(file.name + ': kein Bildformat.'); return; }
+        if (file.size > MAX_SIZE) { errors.push(file.name + ': größer als 10 MB.'); return; }
+        selectedFiles.push(file);
+      });
+      syncFileInput();
+      renderPreviews();
+      if (uploadError) uploadError.textContent = errors.join(' ');
+    }
+
     if (uploadZone && fileInput) {
       ['dragover', 'dragenter'].forEach(function (ev) {
-        uploadZone.addEventListener(ev, function (e) {
+        uploadZone!.addEventListener(ev, function (e) {
           e.preventDefault();
-          uploadZone.classList.add('is-dragover');
+          uploadZone!.classList.add('is-dragover');
         });
       });
       ['dragleave', 'drop'].forEach(function (ev) {
-        uploadZone.addEventListener(ev, function () {
-          uploadZone.classList.remove('is-dragover');
+        uploadZone!.addEventListener(ev, function () {
+          uploadZone!.classList.remove('is-dragover');
         });
       });
-      uploadZone.addEventListener('drop', function (e) {
+      uploadZone.addEventListener('drop', function (e: DragEvent) {
         e.preventDefault();
-        if (e.dataTransfer && e.dataTransfer.files.length) {
-          fileInput.files = e.dataTransfer.files;
-          updateUploadHint();
-        }
+        if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
       });
-      fileInput.addEventListener('change', updateUploadHint);
+      fileInput.addEventListener('change', function () {
+        if (fileInput!.files) addFiles(fileInput!.files);
+      });
     }
 
-    form.addEventListener('submit', function (e) {
+    // ---- Bilder vor dem Versand auf max. 2000px Kantenlänge verkleinern ----
+    async function resizeImageFile(file: File, maxEdge: number): Promise<File> {
+      if (!file.type.startsWith('image/') || file.type === 'image/svg+xml') return file;
+      try {
+        var bitmap = await createImageBitmap(file);
+        if (bitmap.width <= maxEdge && bitmap.height <= maxEdge) return file;
+        var scale = maxEdge / Math.max(bitmap.width, bitmap.height);
+        var w = Math.round(bitmap.width * scale);
+        var h = Math.round(bitmap.height * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return file;
+        ctx.drawImage(bitmap, 0, 0, w, h);
+        var type = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        var blob: Blob | null = await new Promise(function (resolve) { canvas.toBlob(resolve, type, 0.85); });
+        if (!blob) return file;
+        return new File([blob], file.name, { type: blob.type, lastModified: Date.now() });
+      } catch (err) {
+        return file;
+      }
+    }
+
+    // ---- Zustände ----
+    function showStage(stage: 'form' | 'done' | 'error', demo?: boolean) {
+      stageForm!.classList.add('hidden');
+      stageDone!.classList.add('hidden');
+      stageError!.classList.add('hidden');
+      if (stage === 'form') {
+        stageForm!.classList.remove('hidden');
+        stageForm!.scrollIntoView({ behavior: 'smooth' });
+      } else if (stage === 'done') {
+        if (doneDemoNote) doneDemoNote.classList.toggle('hidden', !demo);
+        stageDone!.classList.remove('hidden');
+        stageDone!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        stageError!.classList.remove('hidden');
+        stageError!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // ---- Versand ----
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      var honeypot = form.querySelector('input[name="website"]');
+      var honeypot = form!.querySelector<HTMLInputElement>('input[name="_gotcha"]');
       if (honeypot && honeypot.value) return;
 
-      if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+      if (typeof form!.reportValidity === 'function' && !form!.reportValidity()) return;
 
-      var fd = new FormData(form);
-      var bereiche = fd.getAll('bereiche[]').join(', ') || 'keine Angabe';
-      var lines = [
-        'Name: ' + (fd.get('name') || ''),
-        'Firma / Hausverwaltung: ' + (fd.get('firma') || '–'),
-        'E-Mail: ' + (fd.get('email') || ''),
-        'Telefon: ' + (fd.get('telefon') || '–'),
-        'PLZ und Ort: ' + (fd.get('plzOrt') || ''),
-        'Leistungsbereich: ' + (fd.get('leistungsbereich') || ''),
-        'Auftraggeber: ' + (fd.get('auftraggeber') || '–'),
-        'Objektart: ' + (fd.get('objektart') || '–'),
-        'Ausgewählte Bereiche: ' + bereiche,
-        '',
-        'Anliegen:',
-        String(fd.get('anliegen') || ''),
-      ];
-      if (fileInput && fileInput.files && fileInput.files.length) {
-        lines.push('', 'Hinweis: ' + fileInput.files.length + ' Foto(s) bitte manuell an diese E-Mail anhängen.');
+      sendBtn!.disabled = true;
+      var originalLabel = sendBtn!.textContent;
+      sendBtn!.textContent = 'Wird gesendet…';
+
+      try {
+        if (fileInput && fileInput.files && fileInput.files.length) {
+          var resized = await Promise.all(Array.from(fileInput.files).map(function (f) { return resizeImageFile(f, MAX_EDGE); }));
+          var dt = new DataTransfer();
+          resized.forEach(function (f) { dt.items.add(f); });
+          fileInput.files = dt.files;
+        }
+
+        var data = new FormData(form!);
+        data.delete('_gotcha');
+
+        if (!endpoint) {
+          console.info('[Attrappe] Es wurde nichts versendet.', Object.fromEntries(data as any));
+          showStage('done', true);
+          return;
+        }
+
+        var res = await fetch(endpoint, { method: 'POST', body: data });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        showStage('done', false);
+      } catch (err) {
+        showStage('error');
+      } finally {
+        sendBtn!.disabled = false;
+        sendBtn!.textContent = originalLabel;
       }
-
-      var leistung = fd.get('leistungsbereich');
-      var subject = 'Anfrage über 123reinigung.at' + (leistung ? ' – ' + leistung : '');
-      var mailto = 'mailto:' + mailTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-      window.location.href = mailto;
-
-      stageForm.classList.add('hidden');
-      stageDone.classList.remove('hidden');
-      stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
-        stageDone.classList.add('hidden');
-        stageForm.classList.remove('hidden');
-        stageForm.scrollIntoView({ behavior: 'smooth' });
+        form!.reset();
+        selectedFiles = [];
+        syncFileInput();
+        renderPreviews();
+        showStage('form');
+      });
+    }
+    if (retryBtn) {
+      retryBtn.addEventListener('click', function () {
+        showStage('form');
       });
     }
   })();

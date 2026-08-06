@@ -18,9 +18,8 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
         <div class="legal-section">
           <h3 class="display">Diensteanbieter</h3>
           <p>
-            {brand.name} GmbH<br>
-            Ivica Osim Platz 2/5<br>
-            A-8041 Graz
+            [Firmenwortlaut und Rechtsform werden ergänzt]<br>
+            [Anschrift wird ergänzt]
           </p>
           <p>
             Firmenbuchnummer: [FN wird ergänzt]<br>
@@ -44,7 +43,7 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
 
         <div class="legal-section">
           <h3 class="display">Unternehmensgegenstand</h3>
-          <p>[Unternehmensgegenstand wird ergänzt]</p>
+          <p>[Unternehmensgegenstand wird ergänzt — Gebäudereinigung mit Schwerpunkt Photovoltaik-, Marmor- und Natursteinpflege sowie Pflasterflächen]</p>
         </div>
 
         <div class="legal-section">
@@ -69,21 +68,23 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
           </p>
         </div>
 
-        <div class="legal-section">
-          <h3 class="display">Bildquellen</h3>
-          {quellen.map((quelle) => {
-            const lizenz = BILDQUELLEN_LIZENZ[quelle];
-            return <p>Bildmaterial: {quelle}{lizenz && ` (${lizenz})`}.</p>;
-          })}
-          <p>
-            {bildEintraege.map((bild, i) => (
-              <>
-                {bild.beschreibung} ({bild.quelle}{bild.kiGeneriert && ', mit KI erstellt'})
-                {i < bildEintraege.length - 1 && <br />}
-              </>
-            ))}
-          </p>
-        </div>
+        {bildEintraege.length > 0 && (
+          <div class="legal-section">
+            <h3 class="display">Bildquellen</h3>
+            {quellen.map((quelle) => {
+              const lizenz = BILDQUELLEN_LIZENZ[quelle];
+              return <p>Bildmaterial: {quelle}{lizenz && ` (${lizenz})`}.</p>;
+            })}
+            <p>
+              {bildEintraege.map((bild, i) => (
+                <>
+                  {bild.beschreibung} ({bild.quelle}{bild.kiGeneriert && ', mit KI erstellt'})
+                  {i < bildEintraege.length - 1 && <br />}
+                </>
+              ))}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   </section>

@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { brand } from '../config/brand';
+---
+<Layout title={`Datenschutz – ${brand.name}`}>
+  <section class="band">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h1 class="display">Datenschutzerklärung</h1>
+      <p class="lead">Information gemäß Art. 13 DSGVO.</p>
+
+      <p class="ph" style="max-width:70ch">
+        <b>Hinweis für die Abstimmung:</b> Dieser Text ist ein strukturell vollständiger Entwurf, kein
+        rechtsgeprüfter Text. Vor dem Livegang von einer fachkundigen Stelle (Rechtsberatung oder
+        Datenschutzbeauftragte:r) prüfen lassen — insbesondere sobald ein echter Formular-Endpunkt
+        (<code>PUBLIC_FORM_ENDPOINT</code>) angebunden ist, siehe UMBAU-BRIEFING.md, Abschnitt 5a, Punkt 5.
+      </p>
+
+      <div class="legal">
+        <div class="legal-section">
+          <h3 class="display">Verantwortlicher</h3>
+          <p>
+            [Firmenwortlaut wird ergänzt]<br>
+            [Anschrift wird ergänzt]<br>
+            E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Anfrageformular und Fotoupload</h3>
+          <p>
+            Wenn Sie unser Anfrageformular nutzen, verarbeiten wir die von Ihnen eingegebenen Angaben (Name,
+            Kontaktdaten, Angaben zu Ihrem Objekt, ggf. hochgeladene Fotos), um Ihre Anfrage zu bearbeiten und
+            Ihnen eine fachliche Einschätzung zu geben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
+            (vorvertragliche Maßnahme auf Ihre Anfrage hin).
+          </p>
+          <p>
+            Fotos werden ausschließlich zur Einschätzung Ihres Anliegens verwendet und nicht ohne Ihre
+            Zustimmung für andere Zwecke genutzt. [Angaben zu Speicherort, Auftragsverarbeiter und Löschfrist
+            werden ergänzt, sobald der Formular-Versand technisch angebunden ist.]
+          </p>
+          <p>
+            Ihre Angaben werden für die Dauer der Bearbeitung Ihrer Anfrage sowie einer sich ggf.
+            anschließenden Geschäftsbeziehung gespeichert und danach im Rahmen der gesetzlichen
+            Aufbewahrungsfristen gelöscht. [Konkrete Löschfristen werden ergänzt.]
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Hosting</h3>
+          <p>
+            Diese Website wird über GitHub Pages ausgeliefert. Beim Aufruf der Seite verarbeitet der Hoster
+            technisch notwendige Zugriffsdaten (u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs), um die
+            Auslieferung der Seite zu ermöglichen. Details zur Verarbeitung durch GitHub finden Sie in der
+            Datenschutzerklärung von GitHub Inc.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Schriften</h3>
+          <p>
+            Die auf dieser Website verwendeten Schriften (Big Shoulders Display, Inter) sind lokal
+            eingebunden. Es findet keine Verbindung zu Google-Fonts-Servern statt, es werden dabei keine
+            Daten an Google übertragen.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Cookies</h3>
+          <p>
+            Diese Website setzt keine Cookies zu Tracking- oder Analysezwecken ein.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Ihre Rechte</h3>
+          <p>
+            Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer
+            Daten sowie auf Datenübertragbarkeit und Widerspruch gegen die Verarbeitung. Sie haben außerdem
+            das Recht, sich bei der österreichischen Datenschutzbehörde (<a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>)
+            zu beschweren.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Änderungen dieser Erklärung</h3>
+          <p>
+            Wir passen diese Datenschutzerklärung an, sobald sich die Datenverarbeitung auf dieser Website
+            ändert — insbesondere bei Anbindung eines echten Formular-Endpunkts.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

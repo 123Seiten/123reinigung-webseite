@@ -1,0 +1,101 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { brand } from '../config/brand';
+---
+<Layout title={`AGB – ${brand.name}`}>
+  <section class="band">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h1 class="display">Allgemeine Geschäftsbedingungen</h1>
+
+      <p class="ph" style="max-width:70ch">
+        <b>Hinweis für die Abstimmung:</b> Dieser Text ist ein struktureller Entwurf, kein rechtsgeprüfter
+        Text. Konkrete Geschäftsbedingungen (Zahlungsziele, Gewährleistungsfristen, Haftungsgrenzen) sind
+        unternehmerische Entscheidungen und noch offen — vor dem Livegang von einer fachkundigen Stelle
+        prüfen und ergänzen lassen.
+      </p>
+
+      <div class="legal">
+        <div class="legal-section">
+          <h3 class="display">1. Geltungsbereich</h3>
+          <p>
+            Diese Allgemeinen Geschäftsbedingungen gelten für alle Reinigungs- und Pflegeleistungen, die
+            [Firmenwortlaut wird ergänzt] (nachfolgend „{brand.name}") gegenüber Privatpersonen, Unternehmen
+            und öffentlichen Auftraggebern erbringt.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">2. Angebot und Vertragsabschluss</h3>
+          <p>
+            Anfragen über das Kontaktformular oder per E-Mail sind unverbindlich. Ein Vertrag kommt erst
+            durch die schriftliche oder per E-Mail bestätigte Auftragsannahme durch {brand.name} zustande.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">3. Leistungsumfang</h3>
+          <p>
+            Art und Umfang der Leistung ergeben sich aus dem individuellen Angebot. Änderungen des
+            Leistungsumfangs bedürfen der Zustimmung beider Vertragsparteien.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">4. Mitwirkungspflichten des Auftraggebers</h3>
+          <p>
+            Der Auftraggeber ermöglicht Zugang zur zu reinigenden Fläche und weist auf besondere
+            Empfindlichkeiten des Untergrunds oder bekannte Vorschäden hin, soweit diese bekannt sind.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">5. Preise und Zahlungsbedingungen</h3>
+          <p>
+            Es gelten die im jeweiligen Angebot genannten Preise. [Zahlungsziel und Zahlungsmodalitäten
+            werden ergänzt.]
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">6. Gewährleistung und Haftung</h3>
+          <p>
+            Es gelten die gesetzlichen Gewährleistungsbestimmungen. [Konkrete Haftungsregelungen und
+            -grenzen werden nach rechtlicher Prüfung ergänzt.]
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">7. Musterproben bei empfindlichen Oberflächen</h3>
+          <p>
+            Bei empfindlichen oder denkmalgeschützten Oberflächen führt {brand.name} vor Beginn der
+            eigentlichen Arbeiten nach Möglichkeit eine Musterprobe an unauffälliger Stelle durch. Der
+            Auftraggeber wird über das Ergebnis informiert, bevor mit der Fläche fortgefahren wird.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">8. Stornierung und Terminverschiebung</h3>
+          <p>[Regelungen zu Stornofristen werden ergänzt.]</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">9. Datenschutz</h3>
+          <p>
+            Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer
+            <a href="/datenschutz/">Datenschutzerklärung</a>.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">10. Schlussbestimmungen</h3>
+          <p>
+            Es gilt österreichisches Recht. [Gerichtsstand wird nach Festlegung des Firmensitzes ergänzt.]
+            Sollte eine Bestimmung dieser AGB unwirksam sein, bleibt die Wirksamkeit der übrigen
+            Bestimmungen unberührt.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

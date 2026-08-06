@@ -28,13 +28,8 @@ export interface BildEintrag {
 }
 
 export const BILDER = {
-  'hero-bg': {
-    datei: '123_vorteilswelt_die_neue_einkaufsabteilung.jpg',
-    alt: '',
-    beschreibung: 'Hero-Hintergrundbild Startseite',
-    quelle: 'Canva',
-    kiGeneriert: false,
-  },
+  // Noch keine Bilder registriert — Bildmaterial steht laut UMBAU-BRIEFING.md
+  // (Abschnitt 5, "Offen") noch aus. Sobald Fotos vorliegen, hier eintragen.
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;

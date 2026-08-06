@@ -1,0 +1,33 @@
+---
+import Layout from './Layout.astro';
+import AnfrageFormular from '../components/AnfrageFormular.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  eyebrow: string;
+  h1: string;
+  intro: string;
+}
+
+const { title, description, eyebrow, h1, intro } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+<Layout title={title} description={description}>
+  <section class="hero hero--schmal">
+    <div class="wrap">
+      <div class="hero-content">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1 class="display">{h1}</h1>
+        <p class="hero-sub">{intro}</p>
+        <div class="hero-cta">
+          <a class="btn" href={`${base}#anfrage`}>Angebot anfordern</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <slot />
+
+  <AnfrageFormular />
+</Layout>

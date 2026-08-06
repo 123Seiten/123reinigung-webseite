@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL;
     <div class="fgrid">
       <div>
         <h4>{brand.name}</h4>
-        <p style="max-width:34ch">Die Einkaufsabteilung für Klein- und Mittelbetriebe. {brand.tagline} – österreichweit, regional betreut.</p>
+        <p style="max-width:34ch">Spezialisierte Gebäudereinigung — {brand.tagline}. Photovoltaik, Marmor und Naturstein, Pflasterflächen. Österreichweit.</p>
         <div class="franchise-link">
           <b>Sie möchten selbst Partner werden?</b><br>
           <a href={`${base}franchise`}>Franchise-Partner werden</a>
@@ -16,18 +16,18 @@ const base = import.meta.env.BASE_URL;
       </div>
       <div>
         <h4>Kontakt</h4>
-        <p>{brand.name} GmbH<br>Ivica Osim Platz 2/5<br>A-8041 Graz</p>
+        <p>[Anschrift wird ergänzt]</p>
         <a href={`mailto:${brand.email}`}>{brand.email}</a>
       </div>
       <div>
         <h4>Rechtliches</h4>
         <a href={`${base}impressum`}>Impressum</a>
-        <a href="#">Datenschutz</a>
-        <a href="#">AGB</a>
+        <a href={`${base}datenschutz`}>Datenschutz</a>
+        <a href={`${base}agb`}>AGB</a>
       </div>
     </div>
     <div class="fbottom">
-      <p>Prototyp zur internen Abstimmung · Stand Juli 2026 · Inhalte, Bilder und Zahlen sind teilweise Platzhalter</p>
+      <p>© {new Date().getFullYear()} {brand.name}</p>
       <div class="social">
         <a href="#" class="social-link" aria-label={`${brand.name} auf Instagram`}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
