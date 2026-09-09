@@ -1,5 +1,21 @@
 ---
 import LeistungLayout from '../../layouts/LeistungLayout.astro';
+import VideoHochkant from '../../components/VideoHochkant.astro';
+
+const base = import.meta.env.BASE_URL;
+const videoUrl = new URL(`${base}videos/pv-anlagenreinigung.mp4`, Astro.site).toString();
+const posterUrl = new URL(`${base}videos/pv-anlagenreinigung-poster.jpg`, Astro.site).toString();
+
+const videoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Photovoltaikanlagen-Reinigung – 123Reinigung',
+  description: 'Und man sieht es ihr kaum an. Wir reinigen Photovoltaikanlagen nach Herstellervorgabe — ohne Chemie, ohne Hochdruck.',
+  thumbnailUrl: [posterUrl],
+  uploadDate: '2026-09-09',
+  duration: 'PT1M5S',
+  contentUrl: videoUrl,
+};
 ---
 <LeistungLayout
   title="PV-Anlagenreinigung nach Herstellervorgabe | 123Reinigung"
@@ -22,12 +38,30 @@ import LeistungLayout from '../../layouts/LeistungLayout.astro';
     <div class="wrap">
       <div class="rule"></div>
       <h2 class="display">Die Ursache</h2>
-      <div class="prose">
-        <p>Module einer Reihe sind in Serie geschaltet. Was unten bremst, bremst die ganze Reihe mit — nicht anteilig, sondern auf das schwächste Modul herunter.</p>
-        <p>Und es bleibt selten beim Ertrag. Aus Staub wird Vogelkot, aus Vogelkot wird Flechte, aus Flechte wird ein dauerhaft verschatteter Bereich. Verschattete Zellen arbeiten dann als Verbraucher statt als Erzeuger und erhitzen sich. Dieser Hotspot kostet am Ende das Modul.</p>
+      <div class="fit-grid">
+        <div class="prose" style="margin-top:0">
+          <p>Module einer Reihe sind in Serie geschaltet. Was unten bremst, bremst die ganze Reihe mit — nicht anteilig, sondern auf das schwächste Modul herunter.</p>
+          <p>Und es bleibt selten beim Ertrag. Aus Staub wird Vogelkot, aus Vogelkot wird Flechte, aus Flechte wird ein dauerhaft verschatteter Bereich. Verschattete Zellen arbeiten dann als Verbraucher statt als Erzeuger und erhitzen sich. Dieser Hotspot kostet am Ende das Modul.</p>
+        </div>
+        <VideoHochkant
+          src="videos/pv-anlagenreinigung.mp4"
+          poster="videos/pv-anlagenreinigung-poster.jpg"
+          label="Kurzvideo: verschmutzte Photovoltaikanlage auf einer Freiflächenanlage"
+        />
       </div>
+      <details class="faq" style="margin-top:24px;max-width:70ch">
+        <summary>Transkript des Videos</summary>
+        <p>Diese Anlage liefert weniger Strom, als sie könnte. Und man sieht es ihr kaum an. Der Grund sitzt ganz unten.</p>
+        <p>An der unteren Modulkante. Dort, wo der Regen den Schmutz hinträgt und liegen lässt. Ein Streifen, wenige Zentimeter breit.</p>
+        <p>Der reicht schon. Denn die Module sind in Reihe geschaltet. Was unten bremst, bremst die ganze Reihe mit.</p>
+        <p>Und es bleibt nicht beim Ertrag. Aus Staub wird Vogelkot. Aus Vogelkot wird Flechte. Aus Flechte wird ein Hitzepunkt. Und der kostet dann das Modul.</p>
+        <p>Wir reinigen mit entmineralisiertem Wasser. Ohne Chemie. Ohne Hochdruck. Nach Vorgabe des Herstellers – damit deine Garantie bleibt, wo sie hingehört.</p>
+        <p>Ganze Fläche, eine Kolonne, ein Termin. Kommentiere mit clean – und sichere dir dein maßgeschneidertes Angebot.</p>
+      </details>
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
 
   <section class="band reveal">
     <div class="wrap">

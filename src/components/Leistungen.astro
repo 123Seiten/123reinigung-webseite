@@ -3,6 +3,12 @@ const base = import.meta.env.BASE_URL;
 
 const items = [
   {
+    title: 'Gebäudereinigung',
+    text: 'Büro, Treppenhaus, Praxis, Betrieb. In der laufenden Reinigung zählt nicht die einzelne Leistung, sondern dass sie jede Woche gleich ausfällt. Dafür stehen 104 Jahre Familienerfahrung.',
+    href: `${base}leistungen/gebaeudereinigung`,
+    label: 'Zur Gebäudereinigung',
+  },
+  {
     title: 'Photovoltaik',
     text: 'Verschmutzte Module liefern weniger Strom — und ein schmaler Streifen an der Unterkante bremst die ganze Reihe mit. Wir reinigen nach Herstellervorgabe, damit Ihre Garantie bestehen bleibt.',
     href: `${base}leistungen/pv-anlagenreinigung`,
@@ -25,7 +31,7 @@ const items = [
 <section class="band reveal" id="leistungen">
   <div class="wrap">
     <div class="rule"></div>
-    <h2 class="display">Drei Spezialisierungen.<br>Ein Anspruch.</h2>
+    <h2 class="display">Spezialisierungen.<br>Ein Anspruch.</h2>
     <div class="leistungen-grid">
       {items.map((item) => (
         <a class="leistung-card" href={item.href}>

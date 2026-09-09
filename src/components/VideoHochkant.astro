@@ -1,0 +1,22 @@
+---
+interface Props {
+  src: string;
+  poster: string;
+  caption?: string;
+  /** Barrierefreiheit: kurze Beschreibung des Bildinhalts */
+  label: string;
+}
+const base = import.meta.env.BASE_URL;
+const { src, poster, caption, label } = Astro.props;
+---
+<figure class="video-hoch">
+  <video
+    src={`${base}${src}`}
+    poster={`${base}${poster}`}
+    controls
+    playsinline
+    preload="none"
+    aria-label={label}
+  ></video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
