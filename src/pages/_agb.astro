@@ -1,4 +1,15 @@
 ---
+/**
+ * Absichtlich deaktiviert: Dateiname mit führendem Unterstrich, Astro
+ * behandelt Dateien in src/pages/ mit "_"-Präfix nicht als Route — die
+ * Seite wird nicht gebaut, /agb/ liefert 404, taucht nicht in der
+ * Sitemap auf.
+ *
+ * Grund: Die AGB stehen inhaltlich noch nicht rechtssicher (siehe
+ * Hinweisbanner unten). Reaktivieren, sobald ein geprüfter Text
+ * vorliegt — dann Datei zurück nach agb.astro benennen und den Link
+ * in Footer.astro (Rechtliches-Spalte) wieder ergänzen.
+ */
 import Layout from '../layouts/Layout.astro';
 import { brand } from '../config/brand';
 ---
