@@ -19,7 +19,7 @@ export const brand = {
   email: 'office@123reinigung.at',
 
   /**
-   * Firmendaten für Impressum, Footer, Datenschutz und AGB.
+   * Firmendaten für Impressum, Footer und Datenschutz.
    * Einzige Quelle — nirgends sonst hart eintragen.
    */
   unternehmen: {

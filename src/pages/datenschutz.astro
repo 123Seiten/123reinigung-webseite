@@ -7,14 +7,7 @@ import { brand } from '../config/brand';
     <div class="wrap">
       <div class="rule"></div>
       <h1 class="display">Datenschutzerklärung</h1>
-      <p class="lead">Information gemäß Art. 13 DSGVO.</p>
-
-      <p class="ph" style="max-width:70ch">
-        <b>Hinweis für die Abstimmung:</b> Dieser Text ist ein strukturell vollständiger Entwurf, kein
-        rechtsgeprüfter Text. Vor dem Livegang von einer fachkundigen Stelle (Rechtsberatung oder
-        Datenschutzbeauftragte:r) prüfen lassen — insbesondere sobald ein echter Formular-Endpunkt
-        (<code>PUBLIC_FORM_ENDPOINT</code>) angebunden ist, siehe UMBAU-BRIEFING.md, Abschnitt 5a, Punkt 5.
-      </p>
+      <p class="lead">Information über die Verarbeitung personenbezogener Daten gemäß Art. 13 und 14 DSGVO.</p>
 
       <div class="legal">
         <div class="legal-section">
@@ -23,64 +16,153 @@ import { brand } from '../config/brand';
             {brand.unternehmen.firmenwortlaut}<br>
             {brand.unternehmen.strasse}<br>
             {brand.unternehmen.plz} {brand.unternehmen.ort}<br>
-            {brand.unternehmen.land}<br>
+            {brand.unternehmen.land}
+          </p>
+          <p>
+            Telefon: <a href={`tel:${brand.unternehmen.telefon}`}>{brand.unternehmen.telefonAnzeige}</a><br>
             E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
-        </div>
-
-        <div class="legal-section">
-          <h3 class="display">Anfrageformular und Fotoupload</h3>
           <p>
-            Wenn Sie unser Anfrageformular nutzen, verarbeiten wir die von Ihnen eingegebenen Angaben (Name,
-            Kontaktdaten, Angaben zu Ihrem Objekt, ggf. hochgeladene Fotos), um Ihre Anfrage zu bearbeiten und
-            Ihnen eine fachliche Einschätzung zu geben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
-            (vorvertragliche Maßnahme auf Ihre Anfrage hin).
-          </p>
-          <p>
-            Fotos werden ausschließlich zur Einschätzung Ihres Anliegens verwendet und nicht ohne Ihre
-            Zustimmung für andere Zwecke genutzt. [Angaben zu Speicherort, Auftragsverarbeiter und Löschfrist
-            werden ergänzt, sobald der Formular-Versand technisch angebunden ist.]
-          </p>
-          <p>
-            Ihre Angaben werden für die Dauer der Bearbeitung Ihrer Anfrage sowie einer sich ggf.
-            anschließenden Geschäftsbeziehung gespeichert und danach im Rahmen der gesetzlichen
-            Aufbewahrungsfristen gelöscht. [Konkrete Löschfristen werden ergänzt.]
+            Verantwortlicher im Sinne der DSGVO ist die vorgenannte Gesellschaft. Für Fragen zum Datenschutz
+            erreichen Sie uns unter den angegebenen Kontaktdaten.
           </p>
         </div>
 
         <div class="legal-section">
-          <h3 class="display">Hosting</h3>
+          <h3 class="display">Grundsätze</h3>
           <p>
-            Diese Website wird über GitHub Pages ausgeliefert. Beim Aufruf der Seite verarbeitet der Hoster
-            technisch notwendige Zugriffsdaten (u. a. IP-Adresse, Datum und Uhrzeit des Zugriffs), um die
-            Auslieferung der Seite zu ermöglichen. Details zur Verarbeitung durch GitHub finden Sie in der
-            Datenschutzerklärung von GitHub Inc.
+            Wir verarbeiten personenbezogene Daten nur, soweit das für den jeweiligen Zweck erforderlich ist.
+            Diese Website ist bewusst datensparsam aufgebaut: Sie setzt keine Cookies, bindet keine Inhalte
+            von fremden Servern ein und führt keine Zugriffsstatistik. Es findet keine Analyse Ihres
+            Verhaltens statt, und es werden keine Profile gebildet.
           </p>
         </div>
 
         <div class="legal-section">
-          <h3 class="display">Schriften</h3>
+          <h3 class="display">Aufruf der Website und Hosting</h3>
+          <p>Diese Website wird gehostet von:</p>
           <p>
-            Die auf dieser Website verwendeten Schriften (Big Shoulders Display, Inter) sind lokal
-            eingebunden. Es findet keine Verbindung zu Google-Fonts-Servern statt, es werden dabei keine
-            Daten an Google übertragen.
+            <b>ALL-INKL.COM – Neue Medien Münnich</b>, Inhaber: René Münnich, Hauptstraße 68, 02742
+            Friedersdorf, Deutschland
+          </p>
+          <p>
+            Mit dem Anbieter besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO auf Grundlage der
+            Standardvertragsklauseln der Europäischen Kommission. Die Daten werden auf Servern in Deutschland
+            verarbeitet, eine Übermittlung in Drittländer findet nicht statt.
+          </p>
+          <p>
+            Beim Aufruf der Website speichert der Anbieter die vollständige IP-Adresse für sieben Tage. Dies
+            dient ausschließlich der Erkennung und Abwehr von Angriffen sowie der technischen Sicherheit der
+            Systeme. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt im
+            sicheren Betrieb der Website. Nach Ablauf der sieben Tage werden die Daten automatisch gelöscht.
+          </p>
+          <p>
+            Darüber hinausgehende Zugriffsprotokolle werden nicht geführt. Wir haben die entsprechende
+            Protokollierung deaktiviert.
+          </p>
+          <p>Die Übertragung erfolgt verschlüsselt über HTTPS.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Anfrageformular</h3>
+          <p>
+            Über das Anfrageformular können Sie uns Ihr Anliegen schildern und eine unverbindliche
+            Einschätzung anfordern.
+          </p>
+          <p>
+            <b>Welche Daten wir verarbeiten:</b> Ihren Namen, Ihre Kontaktdaten, Angaben zum Objekt und zur
+            gewünschten Leistung, Ihre Nachricht sowie — sofern Sie welche hochladen — Fotos der betroffenen
+            Fläche. Pflichtfelder sind als solche gekennzeichnet; alle weiteren Angaben sind freiwillig.
+          </p>
+          <p>
+            <b>Wozu:</b> Um Ihre Anfrage zu bearbeiten, Ihnen eine fachliche Einschätzung zu geben und
+            gegebenenfalls ein Angebot zu erstellen.
+          </p>
+          <p>
+            <b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. b DSGVO — die Verarbeitung erfolgt auf Ihre Anfrage hin
+            zur Durchführung vorvertraglicher Maßnahmen.
+          </p>
+          <p>
+            <b>Was mit den Daten geschieht:</b> Ihre Angaben werden per E-Mail an unser Postfach
+            <a href="mailto:anfrage@123reinigung.at">anfrage@123reinigung.at</a> übermittelt und dort
+            bearbeitet. Eine Speicherung auf dem Webserver findet nicht statt. Eine Weitergabe an Dritte
+            erfolgt nicht.
+          </p>
+          <p>
+            <b>Zu den Fotos:</b> Fotos verwenden wir ausschließlich zur Einschätzung Ihres Anliegens.
+            Aufnahmen von Mobiltelefonen enthalten häufig versteckte Zusatzinformationen, insbesondere die
+            GPS-Koordinaten des Aufnahmeorts. Diese Zusatzinformationen werden beim Empfang automatisch
+            entfernt, bevor die Daten unser Postfach erreichen. Eine Veröffentlichung Ihrer Fotos, etwa als
+            Referenz auf dieser Website, erfolgt nur mit Ihrer ausdrücklichen Zustimmung.
+          </p>
+          <p>
+            <b>Wie lange:</b> Führt Ihre Anfrage nicht zu einem Auftrag, löschen wir sie spätestens sechs
+            Monate nach der letzten Kommunikation. Kommt ein Auftrag zustande, wird die Anfrage Teil der
+            Geschäftsunterlagen und unterliegt der siebenjährigen Aufbewahrungspflicht nach § 212 UGB.
           </p>
         </div>
 
         <div class="legal-section">
-          <h3 class="display">Cookies</h3>
+          <h3 class="display">Franchise-Bewerbungen</h3>
+          <p>Über das Bewerbungsformular im Franchise-Bereich können Sie sich als Partner bewerben.</p>
           <p>
-            Diese Website setzt keine Cookies zu Tracking- oder Analysezwecken ein.
+            <b>Welche Daten:</b> Name, Kontaktdaten, Angaben zu einem bestehenden Betrieb, Wunschgebiet,
+            bisherige Erfahrung und gewünschter Startzeitpunkt.
           </p>
+          <p><b>Wozu:</b> Zur Prüfung Ihrer Bewerbung und zur Kontaktaufnahme.</p>
+          <p><b>Rechtsgrundlage:</b> Art. 6 Abs. 1 lit. b DSGVO.</p>
+          <p>
+            <b>Was mit den Daten geschieht:</b> Übermittlung per E-Mail an
+            <a href="mailto:franchise@123reinigung.at">franchise@123reinigung.at</a>. Keine Speicherung auf
+            dem Webserver, keine Weitergabe an Dritte.
+          </p>
+          <p>
+            <b>Wie lange:</b> Kommt keine Partnerschaft zustande, löschen wir Ihre Bewerbung spätestens sechs
+            Monate nach der letzten Kommunikation. Einen Bewerberpool führen wir nicht.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Kontaktaufnahme per E-Mail oder Telefon</h3>
+          <p>
+            Wenn Sie uns unabhängig vom Formular schreiben oder anrufen, verarbeiten wir die dabei
+            übermittelten Daten zur Bearbeitung Ihres Anliegens. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b
+            DSGVO bei vertraglichem Bezug, sonst Art. 6 Abs. 1 lit. f DSGVO aufgrund unseres berechtigten
+            Interesses an der Beantwortung von Anfragen. Es gelten dieselben Löschfristen wie beim
+            Anfrageformular.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Keine Cookies, keine externen Dienste</h3>
+          <p>
+            Diese Website setzt keine Cookies und verwendet keine vergleichbaren Speichertechniken im
+            Browser.
+          </p>
+          <p>
+            Alle Inhalte werden von unserem eigenen Server ausgeliefert. Es findet keine Verbindung zu
+            Servern Dritter statt. Insbesondere:
+          </p>
+          <ul>
+            <li>Die verwendeten Schriften (Big Shoulders Display, Inter) sind lokal eingebunden. Es besteht keine Verbindung zu Google Fonts.</li>
+            <li>Videos werden von unserem eigenen Server ausgeliefert. Es sind keine Videoplattformen eingebunden.</li>
+            <li>Es sind keine Karten, Social-Media-Schaltflächen oder Werbenetzwerke eingebunden.</li>
+            <li>Es findet keine Reichweitenmessung und kein Tracking statt.</li>
+          </ul>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Ihre Rechte</h3>
           <p>
-            Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer
-            Daten sowie auf Datenübertragbarkeit und Widerspruch gegen die Verarbeitung. Sie haben außerdem
-            das Recht, sich bei der österreichischen Datenschutzbehörde (<a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>)
-            zu beschweren.
+            Sie haben das Recht auf Auskunft über die zu Ihrer Person verarbeiteten Daten (Art. 15 DSGVO),
+            auf Berichtigung (Art. 16), auf Löschung (Art. 17), auf Einschränkung der Verarbeitung (Art. 18),
+            auf Datenübertragbarkeit (Art. 20) sowie auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO).
+          </p>
+          <p>Wenden Sie sich dazu formlos an die oben genannten Kontaktdaten.</p>
+          <p>Unabhängig davon steht Ihnen ein Beschwerderecht bei der Aufsichtsbehörde zu:</p>
+          <p>
+            <b>Österreichische Datenschutzbehörde</b>, Barichgasse 40–42, 1030 Wien,
+            <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>
           </p>
         </div>
 
@@ -88,8 +170,9 @@ import { brand } from '../config/brand';
           <h3 class="display">Änderungen dieser Erklärung</h3>
           <p>
             Wir passen diese Datenschutzerklärung an, sobald sich die Datenverarbeitung auf dieser Website
-            ändert — insbesondere bei Anbindung eines echten Formular-Endpunkts.
+            ändert. Maßgeblich ist die jeweils auf dieser Seite veröffentlichte Fassung.
           </p>
+          <p>Stand: [Monat Jahr des Livegangs]</p>
         </div>
       </div>
     </div>
