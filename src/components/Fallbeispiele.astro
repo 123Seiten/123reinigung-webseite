@@ -1,26 +1,75 @@
 ---
+import VorherNachher from './VorherNachher.astro';
 ---
-<section class="band band--grey reveal">
+<section class="band band--grey reveal" id="vn-sektion" data-zustand="vorher">
   <div class="wrap">
     <div class="rule"></div>
     <h2 class="display">Was wir für andere<br>Objekte erreicht haben</h2>
     <div class="cases">
-      <div class="case">
-        <p class="meta">Platzhalter · Objektart, Leistungsbereich</p>
-        <p class="big">Vorher/Nachher</p>
-        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
-      </div>
-      <div class="case">
-        <p class="meta">Platzhalter · Objektart, Leistungsbereich</p>
-        <p class="big">Vorher/Nachher</p>
-        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
-      </div>
-      <div class="case">
-        <p class="meta">Platzhalter · Objektart, Leistungsbereich</p>
-        <p class="big">Vorher/Nachher</p>
-        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
-      </div>
+      <VorherNachher
+        objekt="Privatobjekt · Grundstückszufahrt"
+        vorher="zufahrtVorher"
+        nachher="zufahrtNachher"
+        text="Verwitterte Grundstückszufahrten wirken nicht mehr einladend. Hier das Ergebnis unserer Spezialreinigung."
+      />
+      <VorherNachher
+        objekt="Privatgarten · Natursteinterrasse"
+        vorher="terrasseVorher"
+        nachher="terrasseNachher"
+        text="Die lange vernachlässigte Terrasse erstrahlt nach der Spezialreinigung absolut neuwertig."
+      />
+      <VorherNachher
+        objekt="Außenanlage · Natursteintreppe"
+        vorher="treppeVorher"
+        nachher="treppeNachher"
+        text="Unter Algen und Schmutz war der helle Naturstein kaum noch zu erkennen. Die Spezialreinigung hat ihn zurückgeholt."
+      />
     </div>
-    <p class="ph"><b>Hinweis für die Abstimmung:</b> Diese Sektion sollte erst online gehen, wenn echtes Vorher/Nachher-Bildmaterial und echte Kundenstimmen vorliegen. Bis dahin lieber ganz weglassen als mit erfundenen Fällen füllen — hier entscheidet sich die Glaubwürdigkeit der ganzen Seite.</p>
+    <button type="button" class="btn btn--sm vn-toggle hidden" id="vnToggle">Vorher/Nachher umschalten</button>
   </div>
 </section>
+
+<script>
+  (function () {
+    var section = document.getElementById('vn-sektion');
+    var toggle = document.getElementById('vnToggle');
+    if (!section) return;
+
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var timer: ReturnType<typeof setInterval> | null = null;
+
+    function current() {
+      return section!.getAttribute('data-zustand');
+    }
+    function flip() {
+      section!.setAttribute('data-zustand', current() === 'vorher' ? 'nachher' : 'vorher');
+    }
+    function start() {
+      if (timer || prefersReduced) return;
+      timer = setInterval(flip, 3000);
+    }
+    function stop() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (prefersReduced) {
+      if (toggle) {
+        toggle.classList.remove('hidden');
+        toggle.addEventListener('click', flip);
+      }
+      return;
+    }
+
+    start();
+    section.addEventListener('mouseenter', stop);
+    section.addEventListener('mouseleave', start);
+    section.addEventListener('focusin', stop);
+    section.addEventListener('focusout', function (e) {
+      var next = (e as FocusEvent).relatedTarget as Node | null;
+      if (!next || !section!.contains(next)) start();
+    });
+  })();
+</script>

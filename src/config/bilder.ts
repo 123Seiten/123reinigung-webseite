@@ -28,8 +28,57 @@ export interface BildEintrag {
 }
 
 export const BILDER = {
-  // Noch keine Bilder registriert — Bildmaterial steht laut UMBAU-BRIEFING.md
-  // (Abschnitt 5, "Offen") noch aus. Sobald Fotos vorliegen, hier eintragen.
+  // ---- Fallbeispiele: Vorher-Nachher-Paare, Objektfotos von Langmann ----
+  // Alle sechs Bilder liegen als 1200x1200 in src/assets/bilder/ und werden
+  // von Astro in WebP umgewandelt. Zufahrt und Terrasse stammen aus
+  // Schnappschuessen (576x768) und wurden entrauscht, verdoppelt und
+  // nachgeschaerft; der Bildausschnitt ist so gesetzt, dass Vorher und
+  // Nachher denselben Bereich zeigen und die Ueberblendung nicht springt.
+
+  zufahrtVorher: {
+    datei: 'zufahrt-vorher.jpg',
+    alt: 'Gepflasterte Grundstückszufahrt mit grünem Algenbelag zwischen den Steinen, im Hintergrund ein Backsteintor',
+    beschreibung: 'Grundstückszufahrt vor der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+  zufahrtNachher: {
+    datei: 'zufahrt-nachher.jpg',
+    alt: 'Dieselbe Zufahrt nach der Reinigung: rotes Pflaster und heller Randstreifen, frei von Bewuchs',
+    beschreibung: 'Grundstückszufahrt nach der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+
+  terrasseVorher: {
+    datei: 'terrasse-vorher.jpg',
+    alt: 'Natursteinterrasse mit grau-grünem Schmutzbelag, ein dunkler Pflasterstreifen verläuft quer durch die Fläche',
+    beschreibung: 'Natursteinterrasse vor der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+  terrasseNachher: {
+    datei: 'terrasse-nachher.jpg',
+    alt: 'Dieselbe Terrasse nach der Reinigung: goldfarben gemaserter Granit, der Pflasterstreifen hebt sich hell ab',
+    beschreibung: 'Natursteinterrasse nach der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+
+  treppeVorher: {
+    datei: 'treppe-vorher.jpg',
+    alt: 'Außentreppe aus Naturstein, die Stufen sind von Algen und Schmutz fast schwarz verfärbt, seitlich ein weißes Geländer',
+    beschreibung: 'Natursteintreppe vor der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+  treppeNachher: {
+    datei: 'treppe-nachher.jpg',
+    alt: 'Dieselbe Treppe nach der Reinigung: die Stufen zeigen wieder den warmen, hellen Farbton des Natursteins',
+    beschreibung: 'Natursteintreppe nach der Reinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;

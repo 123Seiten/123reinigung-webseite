@@ -1,0 +1,31 @@
+---
+import InhaltsBild from './InhaltsBild.astro';
+import type { BildKey } from '../config/bilder';
+
+interface Props {
+  vorher: BildKey;
+  nachher: BildKey;
+  /** Zeile über dem Bild, z. B. "Privatgarten · Natursteinterrasse" */
+  objekt: string;
+  /** Beschreibung unter dem Label */
+  text: string;
+}
+
+const { vorher, nachher, objekt, text } = Astro.props;
+---
+<div class="case">
+  <p class="meta">{objekt}</p>
+
+  <div class="vn">
+    <InhaltsBild eintrag={vorher} class="vn-vorher" loading="lazy" />
+    <InhaltsBild eintrag={nachher} class="vn-nachher" loading="eager" />
+  </div>
+
+  <div class="vn-label" aria-hidden="true">
+    <span class="vn-punkt"></span>
+    <span class="vn-status vn-status--vorher">Vorher</span>
+    <span class="vn-status vn-status--nachher">Nachher</span>
+  </div>
+
+  <p class="vn-text">{text}</p>
+</div>
