@@ -1,7 +1,7 @@
 ---
 import VorherNachher from './VorherNachher.astro';
 ---
-<section class="band band--grey reveal" id="vn-sektion" data-zustand="vorher">
+<section class="band band--grey reveal" id="vn-sektion">
   <div class="wrap">
     <div class="rule"></div>
     <h2 class="display">Was wir für andere<br>Objekte erreicht haben</h2>
@@ -35,41 +35,138 @@ import VorherNachher from './VorherNachher.astro';
     var toggle = document.getElementById('vnToggle');
     if (!section) return;
 
+    var cards = Array.from(section.querySelectorAll<HTMLElement>('.case'));
+    if (!cards.length) return;
+
     var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var timer: ReturnType<typeof setInterval> | null = null;
+    var mobileQuery = window.matchMedia('(max-width: 819px)');
 
-    function current() {
-      return section!.getAttribute('data-zustand');
+    function currentOf(card: HTMLElement) {
+      return card.getAttribute('data-zustand') || 'vorher';
     }
-    function flip() {
-      section!.setAttribute('data-zustand', current() === 'vorher' ? 'nachher' : 'vorher');
+    function setZustand(card: HTMLElement, z: string) {
+      card.setAttribute('data-zustand', z);
     }
-    function start() {
-      if (timer || prefersReduced) return;
-      timer = setInterval(flip, 3000);
+    function flip(card: HTMLElement) {
+      setZustand(card, currentOf(card) === 'vorher' ? 'nachher' : 'vorher');
     }
-    function stop() {
-      if (timer) {
-        clearInterval(timer);
-        timer = null;
-      }
+    function isNearViewport(el: Element) {
+      var rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight + 200 && rect.bottom > -200;
     }
 
+    // ---- Reduzierte Bewegung: kein Takt, nur der manuelle Umschaltknopf ----
     if (prefersReduced) {
+      cards.forEach(function (c) { setZustand(c, 'vorher'); });
       if (toggle) {
         toggle.classList.remove('hidden');
-        toggle.addEventListener('click', flip);
+        toggle.addEventListener('click', function () {
+          cards.forEach(flip);
+        });
       }
       return;
     }
 
-    start();
-    section.addEventListener('mouseenter', stop);
-    section.addEventListener('mouseleave', start);
-    section.addEventListener('focusin', stop);
+    // ---- Desktop (≥820px): ein gemeinsamer Takt für die ganze Sektion ----
+    var desktopTimer: ReturnType<typeof setInterval> | null = null;
+    function desktopFlip() {
+      cards.forEach(flip);
+    }
+    function startDesktop() {
+      if (desktopTimer || mobileQuery.matches) return;
+      desktopTimer = setInterval(desktopFlip, 3000);
+    }
+    function stopDesktop() {
+      if (desktopTimer) {
+        clearInterval(desktopTimer);
+        desktopTimer = null;
+      }
+    }
+
+    var sectionObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (mobileQuery.matches) return;
+          if (entry.isIntersecting) startDesktop();
+          else stopDesktop();
+        });
+      },
+      { rootMargin: '200px' }
+    );
+    sectionObserver.observe(section);
+
+    section.addEventListener('mouseenter', stopDesktop);
+    section.addEventListener('mouseleave', function () {
+      if (!mobileQuery.matches) startDesktop();
+    });
+    section.addEventListener('focusin', stopDesktop);
     section.addEventListener('focusout', function (e) {
       var next = (e as FocusEvent).relatedTarget as Node | null;
-      if (!next || !section!.contains(next)) start();
+      if ((!next || !section!.contains(next)) && !mobileQuery.matches) startDesktop();
+    });
+
+    // ---- Mobil (<820px): je Karte ein eigener Beobachter, eigener Takt, Start bei "vorher" ----
+    var cardTimers = new Map<HTMLElement, ReturnType<typeof setInterval>>();
+
+    function startCard(card: HTMLElement) {
+      if (cardTimers.has(card)) return;
+      setZustand(card, 'vorher');
+      var t = setInterval(function () { flip(card); }, 3000);
+      cardTimers.set(card, t);
+    }
+    function stopCard(card: HTMLElement) {
+      var t = cardTimers.get(card);
+      if (t) {
+        clearInterval(t);
+        cardTimers.delete(card);
+      }
+    }
+
+    cards.forEach(function (card) {
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!mobileQuery.matches) return;
+            if (entry.isIntersecting) startCard(card);
+            else stopCard(card);
+          });
+        },
+        { rootMargin: '200px' }
+      );
+      obs.observe(card);
+    });
+
+    // ---- Umbruchpunkt zur Laufzeit überschritten (z. B. Fenster/Tablet gedreht) ----
+    mobileQuery.addEventListener('change', function (e) {
+      if (e.matches) {
+        stopDesktop();
+        cards.forEach(function (card) {
+          if (isNearViewport(card)) startCard(card);
+        });
+      } else {
+        cards.forEach(stopCard);
+        if (isNearViewport(section!)) startDesktop();
+      }
+    });
+
+    // ---- Antippen/Klicken einer Karte: sofort umschalten und anhalten ----
+    cards.forEach(function (card) {
+      var target = card.querySelector<HTMLElement>('.vn');
+      if (!target) return;
+
+      function activate() {
+        if (mobileQuery.matches) stopCard(card);
+        else stopDesktop();
+        flip(card);
+      }
+
+      target.addEventListener('click', activate);
+      target.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate();
+        }
+      });
     });
   })();
 </script>

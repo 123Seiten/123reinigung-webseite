@@ -9,10 +9,14 @@ interface Props {
   class?: string;
   width?: number;
   height?: number;
+  /** Breitenstufen für srcset. Ohne Angabe erzeugt Astro keine Varianten. */
+  widths?: number[];
+  /** sizes-Attribut, muss mit den CSS-Umbruchpunkten übereinstimmen. */
+  sizes?: string;
   loading?: 'lazy' | 'eager';
 }
 
-const { eintrag, class: klass, width, height, loading = 'lazy' } = Astro.props;
+const { eintrag, class: klass, width, height, widths, sizes, loading = 'lazy' } = Astro.props;
 const bild = getBild(eintrag);
 
 const dateien = import.meta.glob<{ default: ImageMetadata }>(
@@ -29,6 +33,6 @@ if (!quelle) {
 }
 ---
 <span class:list={['bild-wrap', klass]}>
-  <Image src={quelle.default} alt={bild.alt} width={width} height={height} loading={loading} format="webp" />
+  <Image src={quelle.default} alt={bild.alt} width={width} height={height} widths={widths} sizes={sizes} loading={loading} format="webp" />
   {bild.kiGeneriert && <span class="bild-ki-badge">mit KI erstellt</span>}
 </span>

@@ -12,13 +12,19 @@ interface Props {
 }
 
 const { vorher, nachher, objekt, text } = Astro.props;
+
+// Aus dem CSS gerechnet, nicht geschätzt (siehe AENDERUNGEN-PROMPT-7.md, 2.2):
+// .cases bricht bei 820px auf drei Spalten um (global.css); Desktop-Kartenbreite
+// dort ≈306px, mobil volle Breite minus Wrap- und Kartenpolsterung.
+const vnWidths = [400, 600, 800];
+const vnSizes = '(max-width: 820px) calc(100vw - 88px), 306px';
 ---
-<div class="case">
+<div class="case" data-zustand="vorher">
   <p class="meta">{objekt}</p>
 
-  <div class="vn">
-    <InhaltsBild eintrag={vorher} class="vn-vorher" loading="lazy" />
-    <InhaltsBild eintrag={nachher} class="vn-nachher" loading="eager" />
+  <div class="vn" tabindex="0" role="button" aria-label="Vorher-Nachher-Vergleich umschalten">
+    <InhaltsBild eintrag={vorher} class="vn-vorher" loading="lazy" widths={vnWidths} sizes={vnSizes} />
+    <InhaltsBild eintrag={nachher} class="vn-nachher" loading="lazy" widths={vnWidths} sizes={vnSizes} />
   </div>
 
   <div class="vn-label" aria-hidden="true">
