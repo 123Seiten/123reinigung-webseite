@@ -20,8 +20,10 @@ import { brand } from '../config/brand';
         <div class="legal-section">
           <h3 class="display">Verantwortlicher</h3>
           <p>
-            [Firmenwortlaut wird ergänzt]<br>
-            [Anschrift wird ergänzt]<br>
+            {brand.unternehmen.firmenwortlaut}<br>
+            {brand.unternehmen.strasse}<br>
+            {brand.unternehmen.plz} {brand.unternehmen.ort}<br>
+            {brand.unternehmen.land}<br>
             E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
         </div>

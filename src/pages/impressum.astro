@@ -18,45 +18,53 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
         <div class="legal-section">
           <h3 class="display">Diensteanbieter</h3>
           <p>
-            [Firmenwortlaut und Rechtsform werden ergänzt]<br>
-            [Anschrift wird ergänzt]
+            {brand.unternehmen.firmenwortlaut}<br>
+            {brand.unternehmen.strasse}<br>
+            {brand.unternehmen.plz} {brand.unternehmen.ort}<br>
+            {brand.unternehmen.land}
           </p>
-          <p>
-            Firmenbuchnummer: [FN wird ergänzt]<br>
-            Firmenbuchgericht: [Landesgericht wird ergänzt]<br>
-            UID-Nummer: [ATU-Nummer wird ergänzt]
-          </p>
+          {brand.unternehmen.firmenbuchnummer && <p>Firmenbuchnummer: {brand.unternehmen.firmenbuchnummer}</p>}
+          {brand.unternehmen.firmenbuchgericht && <p>Firmenbuchgericht: {brand.unternehmen.firmenbuchgericht}</p>}
+          {brand.unternehmen.uid && <p>UID-Nummer: {brand.unternehmen.uid}</p>}
         </div>
 
         <div class="legal-section">
           <h3 class="display">Vertretungsberechtigte Geschäftsführung</h3>
-          <p>[Name der/des Geschäftsführer:in wird ergänzt]</p>
+          <p>{brand.unternehmen.geschaeftsfuehrung}</p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Kontakt</h3>
           <p>
-            Telefon: [Telefonnummer wird ergänzt]<br>
+            Telefon: <a href={`tel:${brand.unternehmen.telefon}`}>{brand.unternehmen.telefonAnzeige}</a><br>
             E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Unternehmensgegenstand</h3>
-          <p>[Unternehmensgegenstand wird ergänzt — Gebäudereinigung mit Schwerpunkt Photovoltaik-, Marmor- und Natursteinpflege sowie Pflasterflächen]</p>
+          <p>{brand.unternehmen.unternehmensgegenstand}</p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Mitgliedschaften</h3>
           <p>
-            Mitglied der Wirtschaftskammer [Bundesland wird ergänzt]<br>
+            {brand.unternehmen.kammer && <>Mitglied der {brand.unternehmen.kammer}<br /></>}
             Anwendbare Rechtsvorschriften: Gewerbeordnung (<a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener">www.ris.bka.gv.at</a>)
           </p>
         </div>
 
         <div class="legal-section">
-          <h3 class="display">Aufsichtsbehörde</h3>
-          <p>[zuständige Gewerbebehörde wird ergänzt]</p>
+          <h3 class="display">Berufsbezeichnung</h3>
+          <p>
+            {brand.unternehmen.berufsbezeichnung}<br>
+            Verliehen in {brand.unternehmen.verleihungsstaat}
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Behörde gemäß ECG</h3>
+          <p>{brand.unternehmen.aufsichtsbehoerde}</p>
         </div>
 
         <div class="legal-section">
@@ -64,7 +72,10 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
           <p>
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, abrufbar unter
             <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
-            Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle [nicht/verpflichtet – wird ergänzt].
+          </p>
+          <p>
+            Wir sind weder bereit noch verpflichtet, an einem Streitbeilegungsverfahren vor einer
+            Verbraucherschlichtungsstelle teilzunehmen.
           </p>
         </div>
 

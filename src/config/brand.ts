@@ -18,6 +18,40 @@ export const brand = {
   tagline: 'Aus Leidenschaft für Sauberkeit',
   email: 'office@123reinigung.at',
 
+  /**
+   * Firmendaten für Impressum, Footer, Datenschutz und AGB.
+   * Einzige Quelle — nirgends sonst hart eintragen.
+   */
+  unternehmen: {
+    firmenwortlaut: '123Reinigung Franchise GmbH',
+    geschaeftsfuehrung: 'Stefan Langmann',
+    /** Berufsbezeichnung nach § 5 ECG, samt verleihendem Staat. */
+    berufsbezeichnung: 'Denkmal-, Fassaden- und Gebäudereiniger',
+    verleihungsstaat: 'Österreich',
+
+    strasse: 'Wienersdorfer Straße 20-24/M37/12/1',
+    plz: '2514',
+    ort: 'Traiskirchen',
+    land: 'Österreich',
+
+    /** Maschinenlesbar für tel:-Links */
+    telefon: '+436607693620',
+    /** Lesbar für die Anzeige */
+    telefonAnzeige: '+43 660 7693620',
+
+    unternehmensgegenstand:
+      'Gebäudereinigung mit Schwerpunkt auf Photovoltaikanlagen, Marmor- und Natursteinpflege sowie Pflasterflächen',
+
+    /** Behörde gemäß ECG */
+    aufsichtsbehoerde: 'Bezirkshauptmannschaft Baden',
+
+    // --- Werden nachgereicht, siehe UMBAU-BRIEFING.md ---
+    firmenbuchnummer: '',
+    firmenbuchgericht: '',
+    uid: '',
+    kammer: '',
+  },
+
   logo: {
     /** Relativ zu public/, ohne führenden Slash (Basis-Pfad wird von Logo.astro ergänzt). */
     src: 'assets/logo/logo-full.svg',
