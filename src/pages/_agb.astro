@@ -5,14 +5,12 @@
  * Seite wird nicht gebaut, /agb/ liefert 404, taucht nicht in der
  * Sitemap auf.
  *
- * Grund: Die AGB stehen inhaltlich noch nicht rechtssicher (siehe
- * Hinweisbanner unten). Reaktivieren, sobald ein geprüfter Text
- * vorliegt — dann Datei zurück nach agb.astro benennen und den Link
- * in Footer.astro (Rechtliches-Spalte) wieder ergänzen.
- *
- * Hinweis: Die CSS-Klasse .ph für das Hinweisbanner unten wurde aus
- * global.css entfernt (Runde 5, ungenutzt außerhalb dieser Datei) —
- * beim Reaktivieren neu stylen oder das Banner ersatzlos streichen.
+ * Grund: Die AGB stehen inhaltlich noch nicht rechtssicher. Reaktivieren,
+ * sobald ein geprüfter Text vorliegt — dann Datei zurück nach agb.astro
+ * benennen und den Link in Footer.astro (Rechtliches-Spalte) wieder
+ * ergänzen. Der frühere gelbe Entwurfs-Hinweiskasten wurde entfernt
+ * (Runde 5) — beim Reaktivieren ggf. neu auf den dann tatsächlich
+ * rechtsgeprüften Text prüfen.
  */
 import Layout from '../layouts/Layout.astro';
 import { brand } from '../config/brand';
@@ -22,13 +20,6 @@ import { brand } from '../config/brand';
     <div class="wrap">
       <div class="rule"></div>
       <h1 class="display">Allgemeine Geschäftsbedingungen</h1>
-
-      <p class="ph" style="max-width:70ch">
-        <b>Hinweis für die Abstimmung:</b> Dieser Text ist ein struktureller Entwurf, kein rechtsgeprüfter
-        Text. Konkrete Geschäftsbedingungen (Zahlungsziele, Gewährleistungsfristen, Haftungsgrenzen) sind
-        unternehmerische Entscheidungen und noch offen — vor dem Livegang von einer fachkundigen Stelle
-        prüfen und ergänzen lassen.
-      </p>
 
       <div class="legal">
         <div class="legal-section">
