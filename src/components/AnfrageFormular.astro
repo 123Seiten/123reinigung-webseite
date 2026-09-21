@@ -1,16 +1,16 @@
 ---
 /**
- * Attrappe mit vorbereitetem API-Anschluss (UMBAU-BRIEFING.md, Abschnitt 5a).
+ * Sendet über public/formular.php (UMBAU-BRIEFING.md, Abschnitt 5a;
+ * AENDERUNGEN-PROMPT-8.md). Versandlogik gemeinsam in src/lib/formSubmit.ts.
  *
- * PUBLIC_FORM_ENDPOINT leer  → Testbetrieb: kein Netzwerkaufruf, Erfolgsstufe
- *                               mit Hinweis "Testbetrieb — es wurden keine
+ * PUBLIC_FORM_ENDPOINT leer  → Testbetrieb: kein Netzwerkaufruf, Popup mit
+ *                               Hinweis "Testbetrieb — es wurden keine
  *                               Daten übertragen."
  * PUBLIC_FORM_ENDPOINT gesetzt → echter POST via FormData/fetch.
  *
- * Die name-Attribute unten sind der Feldvertrag zur künftigen API und
- * müssen stabil bleiben.
+ * Die name-Attribute unten sind der Feldvertrag zur API und müssen stabil
+ * bleiben.
  */
-import { brand } from '../config/brand';
 ---
 <section class="band band--dark reveal" id="anfrage">
   <div class="wrap">
@@ -26,93 +26,86 @@ import { brand } from '../config/brand';
       </ul>
 
       <div class="formcard">
-        <div id="stageForm">
-          <h3 class="display stage-title">Ihre Anfrage</h3>
-          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Pflichtfelder sind markiert. Alles Weitere klären wir im Gespräch.</p>
-          <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
+        <h3 class="display stage-title">Ihre Anfrage</h3>
+        <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Pflichtfelder sind markiert. Alles Weitere klären wir im Gespräch.</p>
+        <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
 
-          <form id="anfrageForm" name="anfrage" novalidate>
-            <div id="bereicheHidden"></div>
-            <div class="hp" aria-hidden="true">
-              <label for="fGotcha">Firmenwebsite</label>
-              <input type="text" id="fGotcha" name="_gotcha" tabindex="-1" autocomplete="off">
-            </div>
-
-            <div class="fields">
-              <div class="f-full"><label for="fName">Name</label><input id="fName" name="name" type="text" required placeholder="Vor- und Nachname"></div>
-              <div><label for="fFirma">Firma / Hausverwaltung <span class="optional-tag">(optional)</span></label><input id="fFirma" name="firma" type="text" placeholder="Falls vorhanden"></div>
-              <div><label for="fMail">E-Mail</label><input id="fMail" name="email" type="email" required placeholder="name@beispiel.at"></div>
-              <div><label for="fTel">Telefon <span class="optional-tag">(optional)</span></label><input id="fTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
-              <div><label for="fPlz">PLZ</label><input id="fPlz" name="plz" type="text" inputmode="numeric" required placeholder="8041"></div>
-              <div><label for="fOrt">Ort <span class="optional-tag">(optional)</span></label><input id="fOrt" name="ort" type="text" placeholder="Graz"></div>
-              <div class="f-full">
-                <label for="fAuftraggeber">Auftraggeber <span class="optional-tag">(optional)</span></label>
-                <select id="fAuftraggeber" name="auftraggeber">
-                  <option value="" selected>Bitte wählen</option>
-                  <option value="privat">Privat</option>
-                  <option value="unternehmen">Unternehmen</option>
-                  <option value="oeffentlich">Öffentlich</option>
-                </select>
-              </div>
-              <div class="f-full"><label for="fNachricht">Ihr Anliegen</label><textarea id="fNachricht" name="nachricht" required rows="4" placeholder="Beschreiben Sie kurz Objekt und Problem."></textarea></div>
-              <div class="f-full">
-                <label for="fFotos">Fotos <span class="optional-tag">(optional)</span></label>
-                <div class="upload" id="uploadZone">
-                  <input id="fFotos" name="fotos" type="file" accept="image/*" multiple aria-describedby="uploadHint">
-                  <p class="upload-hint" id="uploadHint">Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen. Maximal 10 Fotos, je bis 10 MB.</p>
-                </div>
-                <p class="upload-error" id="uploadError" role="alert"></p>
-                <div class="upload-previews" id="uploadPreviews"></div>
-              </div>
-              <div class="f-full">
-                <label class="checkbox-label">
-                  <input type="checkbox" name="datenschutz" required>
-                  <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben einverstanden.</span>
-                </label>
-              </div>
-            </div>
-            <button class="btn" id="sendBtn" type="submit">Angebot anfordern</button>
-            <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung dieser Anfrage verwendet.</p>
-          </form>
-        </div>
-
-        <div id="stageDone" class="hidden">
-          <div class="done">
-            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
-            <h3 class="display" style="margin-bottom:10px">Anfrage eingegangen</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 8px">Wir melden uns mit einer fachlichen Ersteinschätzung.</p>
-            <p id="doneDemoNote" class="hidden" style="font-size:.84rem;color:var(--grey-500);margin-bottom:8px">Testbetrieb — es wurden keine Daten übertragen.</p>
-            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:12px;width:auto">Weitere Anfrage stellen</button>
+        <form id="anfrageForm" name="anfrage" novalidate>
+          <input type="hidden" name="formular" value="anfrage">
+          <input type="hidden" name="_ts" id="fTs">
+          <div id="bereicheHidden"></div>
+          <div class="hp" aria-hidden="true">
+            <label for="fGotcha">Firmenwebsite</label>
+            <input type="text" id="fGotcha" name="_gotcha" tabindex="-1" autocomplete="off">
           </div>
-        </div>
 
-        <div id="stageError" class="hidden">
-          <div class="done">
-            <h3 class="display" style="margin-bottom:10px">Das hat nicht geklappt</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:48ch;margin:0 auto 18px">
-              Die Anfrage konnte nicht übermittelt werden. Bitte versuchen Sie es erneut oder schreiben Sie an{' '}
-              <a href={`mailto:${brand.email}`}>{brand.email}</a>. Ihre Eingaben sind noch da.
-            </p>
-            <button class="btn btn--sm" id="retryBtn" type="button" style="width:auto">Zurück zum Formular</button>
+          <div class="fields">
+            <div class="f-full"><label for="fName">Name</label><input id="fName" name="name" type="text" required placeholder="Vor- und Nachname"></div>
+            <div><label for="fFirma">Firma / Hausverwaltung <span class="optional-tag">(optional)</span></label><input id="fFirma" name="firma" type="text" placeholder="Falls vorhanden"></div>
+            <div><label for="fMail">E-Mail</label><input id="fMail" name="email" type="email" required placeholder="name@beispiel.at"></div>
+            <div><label for="fTel">Telefon <span class="optional-tag">(optional)</span></label><input id="fTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
+            <div><label for="fPlz">PLZ</label><input id="fPlz" name="plz" type="text" inputmode="numeric" required placeholder="8041"></div>
+            <div><label for="fOrt">Ort <span class="optional-tag">(optional)</span></label><input id="fOrt" name="ort" type="text" placeholder="Graz"></div>
+            <div class="f-full">
+              <label for="fAuftraggeber">Auftraggeber <span class="optional-tag">(optional)</span></label>
+              <select id="fAuftraggeber" name="auftraggeber">
+                <option value="" selected>Bitte wählen</option>
+                <option value="privat">Privat</option>
+                <option value="unternehmen">Unternehmen</option>
+                <option value="oeffentlich">Öffentlich</option>
+              </select>
+            </div>
+            <div class="f-full"><label for="fNachricht">Ihr Anliegen</label><textarea id="fNachricht" name="nachricht" required rows="4" placeholder="Beschreiben Sie kurz Objekt und Problem."></textarea></div>
+            <div class="f-full">
+              <label for="fFotos">Fotos <span class="optional-tag">(optional)</span></label>
+              <div class="upload" id="uploadZone">
+                <input id="fFotos" name="fotos[]" type="file" accept="image/*" multiple aria-describedby="uploadHint">
+                <p class="upload-hint" id="uploadHint">Fotos hierher ziehen oder antippen. Hilft besonders bei Stein- und Pflasterflächen. Maximal 10 Fotos, je bis 10 MB.</p>
+              </div>
+              <p class="upload-error" id="uploadError" role="alert"></p>
+              <div class="upload-previews" id="uploadPreviews"></div>
+            </div>
+            <div class="f-full">
+              <label class="checkbox-label">
+                <input type="checkbox" name="datenschutz" required>
+                <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben einverstanden.</span>
+              </label>
+            </div>
           </div>
-        </div>
+
+          <p class="form-error hidden" id="formError" role="alert"></p>
+
+          <button class="btn" id="sendBtn" type="submit">Angebot anfordern</button>
+          <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung dieser Anfrage verwendet.</p>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
+<div class="modal-overlay hidden" id="successOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <button type="button" class="modal-close" id="successCloseBtn" aria-label="Schließen">&times;</button>
+    <div class="done">
+      <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3 class="display" id="successTitle" style="margin-bottom:10px">Danke für Ihre Anfrage!</h3>
+      <p id="successMsg" style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 8px">Sie erhalten eine Bestätigungs-E-Mail.</p>
+      <p id="successNote" class="modal-note modal-note--italic">Sollten Sie die Bestätigungs-E-Mail nicht gleich finden, schauen Sie auch im SPAM- oder JUNK-Ordner nach.</p>
+      <button class="btn btn--sm" id="successOkBtn" type="button" style="margin-top:16px;width:auto">Schließen</button>
+    </div>
+  </div>
+</div>
+
 <script>
   import { submitForm } from '../lib/formSubmit';
+  import { initModal } from '../lib/modal';
+  import { brand } from '../config/brand';
 
   (function () {
     var form = document.getElementById('anfrageForm') as HTMLFormElement | null;
-    var stageForm = document.getElementById('stageForm');
-    var stageDone = document.getElementById('stageDone');
-    var stageError = document.getElementById('stageError');
-    var doneDemoNote = document.getElementById('doneDemoNote');
-    var resetBtn = document.getElementById('resetBtn');
-    var retryBtn = document.getElementById('retryBtn');
+    var tsInput = document.getElementById('fTs') as HTMLInputElement | null;
     var sendBtn = document.getElementById('sendBtn') as HTMLButtonElement | null;
+    var formError = document.getElementById('formError');
     var chips = document.getElementById('chips');
     var bereicheHidden = document.getElementById('bereicheHidden');
     var uploadZone = document.getElementById('uploadZone');
@@ -120,7 +113,17 @@ import { brand } from '../config/brand';
     var uploadHint = document.getElementById('uploadHint');
     var uploadError = document.getElementById('uploadError');
     var uploadPreviews = document.getElementById('uploadPreviews');
-    if (!form || !stageForm || !stageDone || !stageError || !sendBtn) return;
+    var successOverlay = document.getElementById('successOverlay');
+    var successMsg = document.getElementById('successMsg');
+    var successNote = document.getElementById('successNote');
+    var successCloseBtn = document.getElementById('successCloseBtn');
+    var successOkBtn = document.getElementById('successOkBtn');
+    if (!form || !sendBtn || !successOverlay) return;
+
+    var telefon = brand.unternehmen.telefon;
+    var telefonAnzeige = brand.unternehmen.telefonAnzeige;
+
+    if (tsInput) tsInput.value = String(Date.now());
 
     var MAX_FILES = 10;
     var MAX_SIZE = 10 * 1024 * 1024;
@@ -244,22 +247,38 @@ import { brand } from '../config/brand';
       }
     }
 
-    // ---- Zustände ----
-    function showStage(stage: 'form' | 'done' | 'error', demo?: boolean) {
-      stageForm!.classList.add('hidden');
-      stageDone!.classList.add('hidden');
-      stageError!.classList.add('hidden');
-      if (stage === 'form') {
-        stageForm!.classList.remove('hidden');
-        stageForm!.scrollIntoView({ behavior: 'smooth' });
-      } else if (stage === 'done') {
-        if (doneDemoNote) doneDemoNote.classList.toggle('hidden', !demo);
-        stageDone!.classList.remove('hidden');
-        stageDone!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // ---- Erfolgs-Popup ----
+    function resetForm() {
+      form!.reset();
+      if (tsInput) tsInput.value = String(Date.now());
+      selectedFiles = [];
+      syncFileInput();
+      renderPreviews();
+    }
+
+    var modal = initModal(successOverlay, resetForm);
+    if (successCloseBtn) successCloseBtn.addEventListener('click', function () { modal.close(); });
+    if (successOkBtn) successOkBtn.addEventListener('click', function () { modal.close(); });
+
+    function openSuccess(hinweis: string | null, demo: boolean) {
+      if (!successMsg || !successNote) return;
+      if (demo) {
+        successMsg.textContent = 'Testbetrieb — es wurden keine Daten übertragen.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'rate-ip') {
+        successMsg.textContent = 'Ihre Anfrage wurde übermittelt. Eine Bestätigungs-E-Mail konnte nicht versendet werden — es sind höchstens drei Einsendungen pro Stunde von derselben IP-Adresse möglich.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'rate-mail') {
+        successMsg.textContent = 'Ihre Anfrage wurde übermittelt. Eine Bestätigungs-E-Mail konnte nicht versendet werden — an dieselbe E-Mail-Adresse gehen höchstens zwei Bestätigungen pro Stunde.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'bestaetigung-fehler') {
+        successMsg.textContent = 'Ihre Anfrage wurde übermittelt. Eine Bestätigungs-E-Mail konnte diesmal nicht versendet werden.';
+        successNote.classList.add('hidden');
       } else {
-        stageError!.classList.remove('hidden');
-        stageError!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        successMsg.textContent = 'Sie erhalten eine Bestätigungs-E-Mail.';
+        successNote.classList.remove('hidden');
       }
+      modal.open(sendBtn);
     }
 
     // ---- Versand ----
@@ -268,6 +287,7 @@ import { brand } from '../config/brand';
 
       if (typeof form!.reportValidity === 'function' && !form!.reportValidity()) return;
 
+      if (formError) { formError.classList.add('hidden'); formError.textContent = ''; }
       sendBtn!.disabled = true;
       var originalLabel = sendBtn!.textContent;
       sendBtn!.textContent = 'Wird gesendet…';
@@ -283,29 +303,18 @@ import { brand } from '../config/brand';
         var result = await submitForm(form!);
         if (result.status === 'spam') return;
         if (result.status === 'error') {
-          showStage('error');
+          if (formError) {
+            formError.innerHTML = 'Ihre Anfrage konnte gerade nicht übermittelt werden. Bitte versuchen Sie es in ein paar Minuten noch einmal — oder rufen Sie uns an unter <a href="tel:' + telefon + '">' + telefonAnzeige + '</a>. Sie erreichen uns auch direkt unter <a href="mailto:' + brand.email + '">' + brand.email + '</a>.';
+            formError.classList.remove('hidden');
+            formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
           return;
         }
-        showStage('done', result.status === 'demo');
+        openSuccess(result.status === 'ok' ? result.hinweis : null, result.status === 'demo');
       } finally {
         sendBtn!.disabled = false;
         sendBtn!.textContent = originalLabel;
       }
     });
-
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        form!.reset();
-        selectedFiles = [];
-        syncFileInput();
-        renderPreviews();
-        showStage('form');
-      });
-    }
-    if (retryBtn) {
-      retryBtn.addEventListener('click', function () {
-        showStage('form');
-      });
-    }
   })();
 </script>

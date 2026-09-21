@@ -30,3 +30,6 @@ pnpm-debug.log*
 UMBAU-BRIEFING.md
 123reinigung-website-struktur-texte.md
 123Vorteilswelt_Website_Prototyp.html
+
+# Mailversand-Zugangsdaten — nur per FTP auf den Server, nie ins Repository
+public/mail-config.php

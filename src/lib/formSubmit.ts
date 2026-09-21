@@ -3,7 +3,8 @@
  * (siehe UMBAU-BRIEFING.md, Abschnitt 5a).
  *
  * PUBLIC_FORM_ENDPOINT leer     → Testbetrieb, kein Netzwerkaufruf.
- * PUBLIC_FORM_ENDPOINT gesetzt  → echter POST via FormData/fetch.
+ * PUBLIC_FORM_ENDPOINT gesetzt  → echter POST via FormData/fetch, Gegenstelle
+ *                                  ist public/formular.php.
  *
  * Jedes Formular, das dieses Modul nutzt, braucht ein verstecktes
  * Honeypot-Feld namens "_gotcha" — ist es befüllt, gilt der Versuch als
@@ -13,8 +14,14 @@
 export type SubmitResult =
   | { status: 'spam' }
   | { status: 'demo' }
-  | { status: 'ok' }
+  | { status: 'ok'; hinweis: string | null }
   | { status: 'error'; error: unknown };
+
+interface FormularAntwort {
+  ok: boolean;
+  hinweis?: string | null;
+  fehler?: string;
+}
 
 export function getFormEndpoint(): string {
   return (import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined) || '';
@@ -37,8 +44,18 @@ export async function submitForm(form: HTMLFormElement): Promise<SubmitResult> {
 
   try {
     const res = await fetch(endpoint, { method: 'POST', body: data });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return { status: 'ok' };
+    let antwort: FormularAntwort | null = null;
+    try {
+      antwort = await res.json();
+    } catch {
+      antwort = null;
+    }
+
+    if (!res.ok || !antwort || antwort.ok !== true) {
+      throw new Error(antwort?.fehler || 'HTTP ' + res.status);
+    }
+
+    return { status: 'ok', hinweis: antwort.hinweis ?? null };
   } catch (error) {
     return { status: 'error', error };
   }

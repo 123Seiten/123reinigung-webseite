@@ -1,11 +1,9 @@
 ---
 /**
- * Attrappe mit vorbereitetem API-Anschluss, gleiches Muster wie
- * AnfrageFormular.astro (UMBAU-BRIEFING.md, Abschnitt 5a). Versandlogik
- * gemeinsam in src/lib/formSubmit.ts.
+ * Sendet über public/formular.php, gleiches Muster wie
+ * AnfrageFormular.astro (UMBAU-BRIEFING.md, Abschnitt 5a;
+ * AENDERUNGEN-PROMPT-8.md). Versandlogik gemeinsam in src/lib/formSubmit.ts.
  */
-import { brand } from '../config/brand';
-
 const base = import.meta.env.BASE_URL;
 ---
 <section class="band band--dark reveal" id="bewerbung">
@@ -21,109 +19,111 @@ const base = import.meta.env.BASE_URL;
       </ul>
 
       <div class="formcard">
-        <div id="bfStageForm">
-          <h3 class="display stage-title">Deine Bewerbung</h3>
-          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:18px">Ein paar Angaben genügen. Alles Weitere besprechen wir im Gespräch.</p>
+        <h3 class="display stage-title">Deine Bewerbung</h3>
+        <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:18px">Ein paar Angaben genügen. Alles Weitere besprechen wir im Gespräch.</p>
 
-          <div class="franchise-link" style="margin-top:0;margin-bottom:22px">
-            <b>Du willst die Zahlen im Detail sehen?</b><br>
-            <a href={`${base}franchise/konditionen`}>Franchisekonditionen ansehen</a>
+        <div class="franchise-link" style="margin-top:0;margin-bottom:22px">
+          <b>Du willst die Zahlen im Detail sehen?</b><br>
+          <a href={`${base}franchise/konditionen`}>Franchisekonditionen ansehen</a>
+        </div>
+
+        <div class="chips" id="bewerbungChips"><span class="chip chip--none">Noch keine Regionen ausgewählt</span></div>
+
+        <form id="bewerbungForm" name="franchise-bewerbung" novalidate>
+          <input type="hidden" name="formular" value="franchise">
+          <input type="hidden" name="_ts" id="bfTs">
+          <div class="hp" aria-hidden="true">
+            <label for="bfGotcha">Firmenwebsite</label>
+            <input type="text" id="bfGotcha" name="_gotcha" tabindex="-1" autocomplete="off">
           </div>
 
-          <div class="chips" id="bewerbungChips"><span class="chip chip--none">Noch keine Regionen ausgewählt</span></div>
+          <div class="fields">
+            <div class="f-full"><label for="bfName">Name</label><input id="bfName" name="name" type="text" required placeholder="Vor- und Nachname"></div>
+            <div><label for="bfMail">E-Mail</label><input id="bfMail" name="email" type="email" required placeholder="du@beispiel.at"></div>
+            <div><label for="bfTel">Telefon <span class="optional-tag">(optional)</span></label><input id="bfTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
 
-          <form id="bewerbungForm" name="franchise-bewerbung" novalidate>
-            <div class="hp" aria-hidden="true">
-              <label for="bfGotcha">Firmenwebsite</label>
-              <input type="text" id="bfGotcha" name="_gotcha" tabindex="-1" autocomplete="off">
-            </div>
-
-            <div class="fields">
-              <div class="f-full"><label for="bfName">Name</label><input id="bfName" name="name" type="text" required placeholder="Vor- und Nachname"></div>
-              <div><label for="bfMail">E-Mail</label><input id="bfMail" name="email" type="email" required placeholder="du@beispiel.at"></div>
-              <div><label for="bfTel">Telefon <span class="optional-tag">(optional)</span></label><input id="bfTel" name="telefon" type="tel" placeholder="0664 1234567"></div>
-
-              <div class="f-full">
-                <label>Ich bin:</label>
-                <div class="slotgrid">
-                  <label class="radio-slot">
-                    <input type="radio" name="bestehender_betrieb" value="bestehender-betrieb" required>
-                    Bestehender Betrieb
-                  </label>
-                  <label class="radio-slot">
-                    <input type="radio" name="bestehender_betrieb" value="quereinsteiger" required>
-                    Quereinsteiger:in
-                  </label>
-                </div>
-              </div>
-
-              <div class="f-full"><label for="bfWunschgebiet">Wunschgebiet</label><input id="bfWunschgebiet" name="wunschgebiet" type="text" required placeholder="z. B. Wien, Steiermark"></div>
-              <div class="f-full"><label for="bfErfahrung">Bisherige Erfahrung <span class="optional-tag">(optional)</span></label><textarea id="bfErfahrung" name="erfahrung" rows="3" placeholder="Branche, Selbstständigkeit, was du mitbringst"></textarea></div>
-
-              <div class="f-full">
-                <label for="bfStart">Startzeitpunkt <span class="optional-tag">(optional)</span></label>
-                <select id="bfStart" name="startzeitpunkt">
-                  <option value="" selected>Bitte wählen</option>
-                  <option value="so-bald-wie-moeglich">So bald wie möglich</option>
-                  <option value="3-monate">Innerhalb von 3 Monaten</option>
-                  <option value="6-monate">Innerhalb von 6 Monaten</option>
-                  <option value="offen">Noch offen</option>
-                </select>
-              </div>
-
-              <div class="f-full">
-                <label class="checkbox-label">
-                  <input type="checkbox" name="datenschutz" required>
-                  <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben einverstanden.</span>
+            <div class="f-full">
+              <label>Ich bin:</label>
+              <div class="slotgrid">
+                <label class="radio-slot">
+                  <input type="radio" name="bestehender_betrieb" value="bestehender-betrieb" required>
+                  Bestehender Betrieb
+                </label>
+                <label class="radio-slot">
+                  <input type="radio" name="bestehender_betrieb" value="quereinsteiger" required>
+                  Quereinsteiger:in
                 </label>
               </div>
             </div>
 
-            <button class="btn" id="bfSendBtn" type="submit">Bewerbung senden</button>
-            <p class="consent">Deine Angaben werden ausschließlich zur Bearbeitung deiner Bewerbung verwendet.</p>
-          </form>
-        </div>
+            <div class="f-full"><label for="bfWunschgebiet">Wunschgebiet</label><input id="bfWunschgebiet" name="wunschgebiet" type="text" required placeholder="z. B. Wien, Steiermark"></div>
+            <div class="f-full"><label for="bfErfahrung">Bisherige Erfahrung <span class="optional-tag">(optional)</span></label><textarea id="bfErfahrung" name="erfahrung" rows="3" placeholder="Branche, Selbstständigkeit, was du mitbringst"></textarea></div>
 
-        <div id="bfStageDone" class="hidden">
-          <div class="done">
-            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
-            <h3 class="display" style="margin-bottom:10px">Bewerbung eingegangen</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 8px">Danke für deine Bewerbung, wir melden uns persönlich bei dir.</p>
-            <p id="bfDoneDemoNote" class="hidden" style="font-size:.84rem;color:var(--grey-500);margin-bottom:8px">Testbetrieb — es wurden keine Daten übertragen.</p>
-            <button class="btn btn--sm" id="bfResetBtn" type="button" style="margin-top:12px;width:auto">Weitere Bewerbung stellen</button>
-          </div>
-        </div>
+            <div class="f-full">
+              <label for="bfStart">Startzeitpunkt <span class="optional-tag">(optional)</span></label>
+              <select id="bfStart" name="startzeitpunkt">
+                <option value="" selected>Bitte wählen</option>
+                <option value="so-bald-wie-moeglich">So bald wie möglich</option>
+                <option value="3-monate">Innerhalb von 3 Monaten</option>
+                <option value="6-monate">Innerhalb von 6 Monaten</option>
+                <option value="offen">Noch offen</option>
+              </select>
+            </div>
 
-        <div id="bfStageError" class="hidden">
-          <div class="done">
-            <h3 class="display" style="margin-bottom:10px">Das hat nicht geklappt</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:48ch;margin:0 auto 18px">
-              Deine Bewerbung konnte nicht übermittelt werden. Bitte versuch es erneut oder schreib an{' '}
-              <a href={`mailto:${brand.email}`}>{brand.email}</a>. Deine Eingaben sind noch da.
-            </p>
-            <button class="btn btn--sm" id="bfRetryBtn" type="button" style="width:auto">Zurück zum Formular</button>
+            <div class="f-full">
+              <label class="checkbox-label">
+                <input type="checkbox" name="datenschutz" required>
+                <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben einverstanden.</span>
+              </label>
+            </div>
           </div>
-        </div>
+
+          <p class="form-error hidden" id="bfFormError" role="alert"></p>
+
+          <button class="btn" id="bfSendBtn" type="submit">Bewerbung senden</button>
+          <p class="consent">Deine Angaben werden ausschließlich zur Bearbeitung deiner Bewerbung verwendet.</p>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
+<div class="modal-overlay hidden" id="bfSuccessOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bfSuccessTitle">
+    <button type="button" class="modal-close" id="bfSuccessCloseBtn" aria-label="Schließen">&times;</button>
+    <div class="done">
+      <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3 class="display" id="bfSuccessTitle" style="margin-bottom:10px">Danke für deine Bewerbung!</h3>
+      <p id="bfSuccessMsg" style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 8px">Du erhältst eine Bestätigungs-E-Mail.</p>
+      <p id="bfSuccessNote" class="modal-note modal-note--italic">Solltest du die Bestätigungs-E-Mail nicht gleich finden, schau auch im SPAM- oder JUNK-Ordner nach.</p>
+      <button class="btn btn--sm" id="bfSuccessOkBtn" type="button" style="margin-top:16px;width:auto">Schließen</button>
+    </div>
+  </div>
+</div>
+
 <script>
   import { submitForm } from '../lib/formSubmit';
+  import { initModal } from '../lib/modal';
+  import { brand } from '../config/brand';
 
   (function () {
     var form = document.getElementById('bewerbungForm') as HTMLFormElement | null;
-    var stageForm = document.getElementById('bfStageForm');
-    var stageDone = document.getElementById('bfStageDone');
-    var stageError = document.getElementById('bfStageError');
-    var doneDemoNote = document.getElementById('bfDoneDemoNote');
+    var tsInput = document.getElementById('bfTs') as HTMLInputElement | null;
     var sendBtn = document.getElementById('bfSendBtn') as HTMLButtonElement | null;
-    var resetBtn = document.getElementById('bfResetBtn');
-    var retryBtn = document.getElementById('bfRetryBtn');
+    var formError = document.getElementById('bfFormError');
     var chips = document.getElementById('bewerbungChips');
     var wunschgebietInput = document.getElementById('bfWunschgebiet') as HTMLInputElement | null;
-    if (!form || !stageForm || !stageDone || !stageError || !sendBtn) return;
+    var successOverlay = document.getElementById('bfSuccessOverlay');
+    var successMsg = document.getElementById('bfSuccessMsg');
+    var successNote = document.getElementById('bfSuccessNote');
+    var successCloseBtn = document.getElementById('bfSuccessCloseBtn');
+    var successOkBtn = document.getElementById('bfSuccessOkBtn');
+    if (!form || !sendBtn || !successOverlay) return;
+
+    var telefon = brand.unternehmen.telefon;
+    var telefonAnzeige = brand.unternehmen.telefonAnzeige;
+
+    if (tsInput) tsInput.value = String(Date.now());
 
     // ---- Regionsauswahl (TileSelect-Chips) → Wunschgebiet-Feld vorbefüllen ----
     var wunschgebietTouched = false;
@@ -144,22 +144,36 @@ const base = import.meta.env.BASE_URL;
       new MutationObserver(syncWunschgebiet).observe(chips, { childList: true });
     }
 
-    // ---- Zustände ----
-    function showStage(stage: 'form' | 'done' | 'error', demo?: boolean) {
-      stageForm!.classList.add('hidden');
-      stageDone!.classList.add('hidden');
-      stageError!.classList.add('hidden');
-      if (stage === 'form') {
-        stageForm!.classList.remove('hidden');
-        stageForm!.scrollIntoView({ behavior: 'smooth' });
-      } else if (stage === 'done') {
-        if (doneDemoNote) doneDemoNote.classList.toggle('hidden', !demo);
-        stageDone!.classList.remove('hidden');
-        stageDone!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // ---- Erfolgs-Popup ----
+    function resetForm() {
+      form!.reset();
+      if (tsInput) tsInput.value = String(Date.now());
+      wunschgebietTouched = false;
+    }
+
+    var modal = initModal(successOverlay, resetForm);
+    if (successCloseBtn) successCloseBtn.addEventListener('click', function () { modal.close(); });
+    if (successOkBtn) successOkBtn.addEventListener('click', function () { modal.close(); });
+
+    function openSuccess(hinweis: string | null, demo: boolean) {
+      if (!successMsg || !successNote) return;
+      if (demo) {
+        successMsg.textContent = 'Testbetrieb — es wurden keine Daten übertragen.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'rate-ip') {
+        successMsg.textContent = 'Deine Bewerbung wurde übermittelt. Eine Bestätigungs-E-Mail konnte nicht versendet werden — es sind höchstens drei Einsendungen pro Stunde von derselben IP-Adresse möglich.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'rate-mail') {
+        successMsg.textContent = 'Deine Bewerbung wurde übermittelt. Eine Bestätigungs-E-Mail konnte nicht versendet werden — an dieselbe E-Mail-Adresse gehen höchstens zwei Bestätigungen pro Stunde.';
+        successNote.classList.add('hidden');
+      } else if (hinweis === 'bestaetigung-fehler') {
+        successMsg.textContent = 'Deine Bewerbung wurde übermittelt. Eine Bestätigungs-E-Mail konnte diesmal nicht versendet werden.';
+        successNote.classList.add('hidden');
       } else {
-        stageError!.classList.remove('hidden');
-        stageError!.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        successMsg.textContent = 'Du erhältst eine Bestätigungs-E-Mail.';
+        successNote.classList.remove('hidden');
       }
+      modal.open(sendBtn);
     }
 
     // ---- Versand ----
@@ -168,6 +182,7 @@ const base = import.meta.env.BASE_URL;
 
       if (typeof form!.reportValidity === 'function' && !form!.reportValidity()) return;
 
+      if (formError) { formError.classList.add('hidden'); formError.textContent = ''; }
       sendBtn!.disabled = true;
       var originalLabel = sendBtn!.textContent;
       sendBtn!.textContent = 'Wird gesendet…';
@@ -176,27 +191,18 @@ const base = import.meta.env.BASE_URL;
         var result = await submitForm(form!);
         if (result.status === 'spam') return;
         if (result.status === 'error') {
-          showStage('error');
+          if (formError) {
+            formError.innerHTML = 'Deine Bewerbung konnte gerade nicht übermittelt werden. Bitte versuch es in ein paar Minuten noch einmal — oder ruf uns an unter <a href="tel:' + telefon + '">' + telefonAnzeige + '</a>. Du erreichst uns auch direkt unter <a href="mailto:' + brand.email + '">' + brand.email + '</a>.';
+            formError.classList.remove('hidden');
+            formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
           return;
         }
-        showStage('done', result.status === 'demo');
+        openSuccess(result.status === 'ok' ? result.hinweis : null, result.status === 'demo');
       } finally {
         sendBtn!.disabled = false;
         sendBtn!.textContent = originalLabel;
       }
     });
-
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        form!.reset();
-        wunschgebietTouched = false;
-        showStage('form');
-      });
-    }
-    if (retryBtn) {
-      retryBtn.addEventListener('click', function () {
-        showStage('form');
-      });
-    }
   })();
 </script>
