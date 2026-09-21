@@ -4,10 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://123Seiten.github.io',
-  base: '/123reinigung-webseite/',
-  server: {
-    host: true,
-  },
+  site: 'https://123reinigung.at',
   integrations: [sitemap()],
+  server: { host: true },
 });
