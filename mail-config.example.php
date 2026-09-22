@@ -1,8 +1,8 @@
 <?php
 /**
  * Vorlage. Zum Verwenden kopieren, Passwort eintragen, als
- * mail-config.php speichern und per FTP nach /123reinigung.at/ laden.
- * mail-config.php gehört NICHT ins Repository.
+ * public/mail-config.php speichern und per FTP nach /123reinigung.at/ laden.
+ * public/mail-config.php gehört NICHT ins Repository.
  */
 return [
     'host'     => 'w0214e71.kasserver.com',

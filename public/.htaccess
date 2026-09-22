@@ -33,7 +33,7 @@ RewriteRule ^(.*)$ https://123reinigung.at/$1 [R=301,L]
 </IfModule>
 
 # --- Konfiguration und Sperrlisten nicht ausliefern ---
-<FilesMatch "^(mail-config\.php|mail-config\.example\.php|_rate-.*\.txt)$">
+<FilesMatch "^(mail-config\.php|_rate-.*\.txt)$">
   Require all denied
 </FilesMatch>
 
