@@ -11,7 +11,7 @@ return [
     'username' => 'website@123reinigung.at',
     'password' => 'HIER_DAS_PASSWORT_EINTRAGEN',
     'from'     => 'website@123reinigung.at',
-    'fromName' => '123Reinigung Website',
+    'fromName' => '123Reinigung',
 
     'empfaenger' => [
         'anfrage'   => 'anfrage@123reinigung.at',
