@@ -62,7 +62,7 @@ header{
   position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
   backdrop-filter:blur(8px);border-bottom:4px solid var(--brand);
 }
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:74px;padding:20px 0}
 .logo{display:flex;align-items:center;text-decoration:none;color:var(--ink);min-width:0;flex-shrink:1}
 .logo-img{height:44px;width:auto;max-width:100%;display:block}
 @media(min-width:480px){.logo-img{height:70px}}
@@ -629,12 +629,6 @@ footer a:hover{color:var(--brand)}
 .subheader-kontakt a{color:var(--white);text-decoration:none;font-weight:600}
 .subheader-kontakt a:hover{color:var(--brand-on-dark)}
 
-/* Unter 760px nur die E-Mail zeigen, sonst bricht die Leiste zweizeilig um */
-@media(max-width:759px){
-  .subheader-claim,.subheader-zeit{display:none}
-  .subheader-in{justify-content:center;min-height:34px}
-}
-
 /* =====================================================================
    Hero mit Foto-Hintergrund
    ===================================================================== */
@@ -770,4 +764,48 @@ footer a:hover{color:var(--brand)}
   font-size:.98rem;
   line-height:1.55;
   color:rgba(255,255,255,.86);
+}
+
+/* =====================================================================
+   Vertrauensleiste nur noch auf schmalen Geraeten
+   ===================================================================== */
+/* Ab 820px stehen dieselben Aussagen im schwarzen Subheader. */
+@media(min-width:820px){
+  .trust{display:none}
+}
+
+/* =====================================================================
+   Schlagworte im Subheader
+   ===================================================================== */
+.subheader-claim{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px 18px;
+  list-style:none;
+  margin:0;
+  padding:0;
+  min-width:0;
+}
+.subheader-claim li{display:flex;align-items:center;white-space:nowrap}
+/* Trennpunkt zwischen den Schlagworten, nicht vor dem ersten */
+.subheader-claim li + li::before{
+  content:'·';
+  margin-right:18px;
+  color:#6c7278;
+}
+
+/* Zwischen 820 und 1100px wird es in einer Zeile eng: dort die
+   Oeffnungszeiten ausblenden, die E-Mail bleibt. */
+@media(max-width:1099px){
+  .subheader-zeit{display:none}
+}
+
+/* Unter 820px nur die E-Mail zeigen — darunter zeigt die Vertrauensleiste
+   dieselben Schlagworte, doppelt waeren sie zwischen 760 und 819px sonst.
+   Steht bewusst nach der .subheader-claim-Grundregel weiter oben, sonst
+   wuerde deren unbedingtes display:flex dieses display:none ueberstimmen. */
+@media(max-width:819px){
+  .subheader-claim,.subheader-zeit{display:none}
+  .subheader-in{justify-content:center;min-height:34px}
 }
