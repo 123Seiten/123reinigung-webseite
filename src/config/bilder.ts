@@ -84,7 +84,7 @@ export const BILDER = {
   // Laterne wurde entfernt und die arbeitende Person durch eine generierte
   // Person ersetzt — deshalb kiGeneriert: true.
   heroParlament: {
-    datei: 'hero-parlament.jpg',
+    datei: 'hero-parlament.webp',
     alt: 'Mitarbeiter im blauen Arbeitsanzug reinigt mit einem Flächenreiniger das Pflaster vor dem Parlament in Wien, im Hintergrund der Pallas-Athene-Brunnen',
     beschreibung: 'Parlament Wien — Pflasterreinigung (Hero-Bild, abgebildete Person ist aus datenschutzrechtlichen Gründen KI-generiert)',
     quelle: 'Langmann Facility Services',
@@ -95,7 +95,7 @@ export const BILDER = {
   // Querformat den Bildausschnitt nicht sinnvoll: Der Mitarbeiter wuerde
   // seitlich herausfallen. Ebenfalls mit ersetzter Person.
   heroParlamentMobil: {
-    datei: 'hero-parlament-mobil.jpg',
+    datei: 'hero-parlament-mobil.webp',
     alt: 'Mitarbeiter im blauen Arbeitsanzug reinigt mit einem Flächenreiniger das Pflaster vor dem Parlament in Wien, dahinter der Pallas-Athene-Brunnen',
     beschreibung: 'Parlament Wien — Pflasterreinigung (Hero-Bild Hochformat, abgebildete Person ist aus datenschutzrechtlichen Gründen KI-generiert)',
     quelle: 'Langmann Facility Services',
