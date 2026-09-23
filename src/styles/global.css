@@ -60,7 +60,7 @@ h3.display{font-size:clamp(1.35rem,2.4vw,1.7rem)}
 /* ---------- Header ---------- */
 header{
   position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--grey-150);
+  backdrop-filter:blur(8px);border-bottom:4px solid var(--brand);
 }
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px}
 .logo{display:flex;align-items:center;text-decoration:none;color:var(--ink);min-width:0;flex-shrink:1}
@@ -612,4 +612,162 @@ footer a:hover{color:var(--brand)}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
+}
+
+/* =====================================================================
+   Schwarzer Subheader
+   ===================================================================== */
+.subheader{background:var(--ink);color:#e6e8ea}
+.subheader-in{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;min-height:40px;
+  font-size:.82rem;line-height:1.3;
+}
+.subheader-claim{color:#e6e8ea}
+.subheader-kontakt{display:flex;align-items:center;gap:26px;white-space:nowrap}
+.subheader-zeit{color:#9aa0a6}
+.subheader-kontakt a{color:var(--white);text-decoration:none;font-weight:600}
+.subheader-kontakt a:hover{color:var(--brand-on-dark)}
+
+/* Unter 760px nur die E-Mail zeigen, sonst bricht die Leiste zweizeilig um */
+@media(max-width:759px){
+  .subheader-claim,.subheader-zeit{display:none}
+  .subheader-in{justify-content:center;min-height:34px}
+}
+
+/* =====================================================================
+   Hero mit Foto-Hintergrund
+   ===================================================================== */
+.hero--foto{
+  background:var(--ink);
+  /* rund 15% flacher als der bisherige Hero; der groessere Abzug liegt
+     unten, weil unter dem CTA der meiste Leerraum stand */
+  padding:clamp(72px,9.5vw,118px) 0 clamp(44px,6vw,68px);
+}
+.hero--foto::after{content:none}
+
+.hero--foto .hero-bg-layer{position:absolute;inset:0;z-index:0}
+.hero--foto .hero-bg-layer .bild-wrap,
+.hero--foto .hero-bg-layer picture{display:block;width:100%;height:100%}
+.hero--foto .hero-bg-layer img{
+  width:100%;height:100%;
+  object-fit:cover;
+  /* 72% horizontal haelt den Mitarbeiter im Bild.
+     68% vertikal zieht das Motiv nach oben, damit er im flacheren Hero
+     nicht an den unteren Rand rutscht. */
+  object-position:72% 68%;
+  display:block;
+}
+
+/* Verlauf links dunkel fuer den Text, rechts offen fuer den Mitarbeiter.
+   Gemessen: im Textbereich bleibt weisse Schrift bei 5,5:1 (WCAG AA ab 4,5). */
+.hero--foto .hero-overlay{
+  position:absolute;inset:0;z-index:0;
+  background:linear-gradient(100deg,
+    rgba(0,0,0,.78)  0%,
+    rgba(0,0,0,.72) 28%,
+    rgba(0,0,0,.55) 52%,
+    rgba(0,0,0,.30) 74%,
+    rgba(0,0,0,.22) 100%);
+}
+
+.hero--foto .hero-content{max-width:640px}
+.hero--foto h1{color:var(--white)}
+.hero-sub--hell{color:#eceff2}
+
+/* Eyebrow in Weiss, NICHT in --brand-on-dark (#29ABE2): dieses Blau kommt
+   auf dem abgedunkelten Foto nur auf rund 2,1:1 und faellt durch WCAG AA. */
+.eyebrow--hero{color:var(--white)}
+
+/* KI-Hinweis am Bild ausblenden — die Kennzeichnung steht im Impressum.
+   WICHTIG: kiGeneriert bleibt in bilder.ts auf true. Nur dieses Flag erzeugt
+   auch den Eintrag in der Bildquellen-Auflistung des Impressums. Auf false
+   setzen wuerde die Kennzeichnung vollstaendig entfernen. */
+.hero--foto .hero-bg-layer .bild-ki-badge{display:none}
+
+/* ---- Hero unter 820px: Hochformat, Text senkrecht mittig ---- */
+@media(max-width:819px){
+  /* Der Text sitzt mittig, also liegt auch die staerkste Abdunklung in der
+     Mitte und laeuft nach oben und unten aus. Gemessen am Hochformat-Bild:
+     ueber die gesamte Textzone bleibt weisse Schrift bei mindestens 5,8:1. */
+  .hero--foto .hero-overlay{
+    background:linear-gradient(180deg,
+      rgba(0,0,0,.62)  0%,
+      rgba(0,0,0,.68) 20%,
+      rgba(0,0,0,.66) 50%,
+      rgba(0,0,0,.56) 78%,
+      rgba(0,0,0,.36) 100%);
+  }
+
+  /* Hochformat: mittig ist richtig, der Mitarbeiter steht in der Bildmitte */
+  .hero--foto .hero-bg-layer img{object-position:center}
+
+  /* Gleicher Abstand oben wie unten — der Textblock steht senkrecht mittig,
+     ober- wie unterhalb bleibt Bild sichtbar */
+  .hero--foto{padding:clamp(88px,31vw,140px) 0}
+
+  /* Eyebrow auf eine Zeile ueber die volle Breite.
+     2,95vw statt fester Groesse: Schrift und Laufweite wachsen mit dem
+     Viewport, damit die Zeile auch auf 320px nicht umbricht. */
+  .eyebrow--hero{
+    font-size:clamp(.55rem,2.95vw,.78rem);
+    letter-spacing:.12em;
+  }
+
+  /* Subline groesser — das Hochformat gibt die Hoehe her */
+  .hero-sub--hell{
+    font-size:clamp(1.05rem,4.85vw,1.2rem);
+    line-height:1.5;
+  }
+
+  /* CTA ueber die volle Breite, Beschriftung mittig */
+  .hero--foto .hero-cta{display:block}
+  .hero--foto .hero-cta .btn{display:block;width:100%;text-align:center}
+}
+
+/* =====================================================================
+   Referenzsektion (blauer Grund)
+   ===================================================================== */
+.rule--weiss{background:var(--white)}
+.lead--weiss{color:rgba(255,255,255,.88);max-width:52ch}
+.band--brand .display{color:var(--white)}
+
+.refs{
+  display:grid;
+  gap:28px;
+  margin-top:40px;
+  justify-content:center;
+}
+@media(min-width:820px){
+  .refs{grid-template-columns:repeat(auto-fit,minmax(0,340px))}
+}
+
+.ref-bild{
+  aspect-ratio:4/3;
+  overflow:hidden;
+  border-radius:var(--r);
+  background:rgba(0,0,0,.18);
+}
+/* .bild-wrap ist global auf display:block gesetzt, braucht hier aber
+   zusaetzlich die volle Hoehe, damit object-fit greift. */
+.ref-bild .bild-wrap{width:100%;height:100%}
+.ref-bild img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.ref-objekt{
+  font-family:'Big Shoulders Display',sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.01em;
+  font-size:1.45rem;
+  line-height:1.1;
+  color:var(--white);
+  margin:16px 0 6px;
+}
+.ref-text{
+  font-size:.98rem;
+  line-height:1.55;
+  color:rgba(255,255,255,.86);
 }

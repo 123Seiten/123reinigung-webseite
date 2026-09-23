@@ -4,15 +4,24 @@ import { getBild, type BildKey } from '../config/bilder';
 interface Props {
   /** Schlüssel aus src/config/bilder.ts */
   eintrag: BildKey;
+  /** Optionaler Schlüssel für ein abweichendes Bild auf schmalen Geräten. */
+  eintragMobil?: BildKey;
+  /** Breite, unterhalb derer das Mobilbild genutzt wird. */
+  mobilBis?: number;
   class?: string;
   loading?: 'lazy' | 'eager';
 }
 
-const { eintrag, class: klass, loading = 'lazy' } = Astro.props;
+const { eintrag, eintragMobil, mobilBis = 819, class: klass, loading = 'lazy' } = Astro.props;
 const bild = getBild(eintrag);
+const mobil = eintragMobil ? getBild(eintragMobil) : null;
 const base = import.meta.env.BASE_URL;
+const ki = bild.kiGeneriert || (mobil?.kiGeneriert ?? false);
 ---
 <span class:list={['bild-wrap', klass]}>
-  <img src={`${base}bilder/${bild.datei}`} alt={bild.alt} loading={loading} />
-  {bild.kiGeneriert && <span class="bild-ki-badge">mit KI erstellt</span>}
+  <picture>
+    {mobil && <source media={`(max-width: ${mobilBis}px)`} srcset={`${base}bilder/${mobil.datei}`} />}
+    <img src={`${base}bilder/${bild.datei}`} alt={bild.alt} loading={loading} />
+  </picture>
+  {ki && <span class="bild-ki-badge">mit KI erstellt</span>}
 </span>

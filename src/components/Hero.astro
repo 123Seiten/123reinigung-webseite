@@ -1,12 +1,17 @@
 ---
+import HintergrundBild from './HintergrundBild.astro';
 const base = import.meta.env.BASE_URL;
 ---
-<section class="hero" id="top">
+<section class="hero hero--foto" id="top">
+  <div class="hero-bg-layer">
+    <HintergrundBild eintrag="heroParlament" eintragMobil="heroParlamentMobil" loading="eager" />
+  </div>
+  <div class="hero-overlay"></div>
   <div class="wrap">
     <div class="hero-content">
-      <p class="eyebrow">Spezialisierte Gebäudereinigung</p>
-      <h1 class="display">Sauberkeit, die Fachwissen braucht.</h1>
-      <p class="hero-sub">Gebäudereinigung, Photovoltaikanlagen, Marmor und Naturstein. Seit 104 Jahren Reinigungsexperten — als Familienbetrieb, in dem das Fachwissen über Generationen weitergegeben wurde. Profitieren Sie jetzt von unserer Erfahrung in ganz Österreich.</p>
+      <p class="eyebrow eyebrow--hero">Für Flächen, die man nicht ersetzen kann</p>
+      <h1 class="display">Spezialreinigung für empfindliche Flächen.</h1>
+      <p class="hero-sub hero-sub--hell">Hochwertige Marmorböden, Natursteinflächen, wertvolle Pflaster, historische Böden, Photovoltaikoberflächen, Graffitientfernung. Wir reinigen dort, wo Fehler unverzeihlich sind — säurefrei, ohne Hochdruck, nach Herstellervorgabe. Ein Familienbetrieb mit 104 Jahren Erfahrung.</p>
       <div class="hero-cta">
         <a class="btn" href={`${base}#anfrage`}>Foto schicken, Einschätzung erhalten</a>
       </div>

@@ -1,0 +1,44 @@
+---
+import InhaltsBild from './InhaltsBild.astro';
+---
+<section class="band band--brand reveal" id="referenzen">
+  <div class="wrap">
+    <div class="rule rule--weiss"></div>
+    <h2 class="display">Objekte, an denen<br>wir gearbeitet haben</h2>
+    <p class="lead lead--weiss">Wo ein Fehler nicht zu reparieren ist, zählt Erfahrung mehr als Ausrüstung.</p>
+
+    <div class="refs">
+      <article class="ref">
+        <div class="ref-bild">
+          <InhaltsBild eintrag="refParlament" widths={[380, 560, 760]} sizes="(max-width: 820px) calc(100vw - 88px), 340px" />
+        </div>
+        <h3 class="ref-objekt">Parlament Wien</h3>
+        <p class="ref-text">Naturstein- und Pflasterflächen im Außenbereich, gereinigt im laufenden Betrieb.</p>
+      </article>
+
+      <article class="ref">
+        <div class="ref-bild">
+          <InhaltsBild eintrag="refOebb" widths={[380, 560, 760]} sizes="(max-width: 820px) calc(100vw - 88px), 340px" />
+        </div>
+        <h3 class="ref-objekt">ÖBB</h3>
+        <p class="ref-text">Graffitientfernung an Schienenfahrzeugen — lackschonend, ohne Abtrag des Decklacks.</p>
+      </article>
+
+      <!--
+        DRITTE KARTE — NICHT FREISCHALTEN.
+        Das Bild `refBelvedere` ist ein Platzhalter und zeigt ein anderes
+        Objekt. Erst einkommentieren, wenn das Originalfoto vom Unteren
+        Belvedere vorliegt, in bilder.ts eingetragen ist und der Leistungstext
+        durch die tatsächlich erbrachte Leistung ersetzt wurde.
+
+      <article class="ref">
+        <div class="ref-bild">
+          <InhaltsBild eintrag="refBelvedere" widths={[380, 560, 760]} sizes="(max-width: 820px) calc(100vw - 88px), 340px" />
+        </div>
+        <h3 class="ref-objekt">Unteres Belvedere</h3>
+        <p class="ref-text">LEISTUNGSTEXT FEHLT NOCH.</p>
+      </article>
+      -->
+    </div>
+  </div>
+</section>

@@ -79,6 +79,55 @@ export const BILDER = {
     quelle: 'Langmann Facility Services',
     kiGeneriert: false,
   },
+  // ---- Hero-Hintergrund (liegt in public/bilder/, nicht in src/assets/) ----
+  // Aufnahme vom Parlamentsauftrag. Gespiegelt und aufgehellt; die abgedeckte
+  // Laterne wurde entfernt und die arbeitende Person durch eine generierte
+  // Person ersetzt — deshalb kiGeneriert: true.
+  heroParlament: {
+    datei: 'hero-parlament.jpg',
+    alt: 'Mitarbeiter im blauen Arbeitsanzug reinigt mit einem Flächenreiniger das Pflaster vor dem Parlament in Wien, im Hintergrund der Pallas-Athene-Brunnen',
+    beschreibung: 'Parlament Wien — Pflasterreinigung (Hero-Bild, abgebildete Person ist aus datenschutzrechtlichen Gründen KI-generiert)',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: true,
+  },
+
+  // Eigene Aufnahme im Hochformat 9:16 fuer schmale Geraete. Dort fuellt das
+  // Querformat den Bildausschnitt nicht sinnvoll: Der Mitarbeiter wuerde
+  // seitlich herausfallen. Ebenfalls mit ersetzter Person.
+  heroParlamentMobil: {
+    datei: 'hero-parlament-mobil.jpg',
+    alt: 'Mitarbeiter im blauen Arbeitsanzug reinigt mit einem Flächenreiniger das Pflaster vor dem Parlament in Wien, dahinter der Pallas-Athene-Brunnen',
+    beschreibung: 'Parlament Wien — Pflasterreinigung (Hero-Bild Hochformat, abgebildete Person ist aus datenschutzrechtlichen Gründen KI-generiert)',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: true,
+  },
+
+  // ---- Referenzobjekte: je ein Objektfoto, 1200x900 (4:3) ----
+
+  refParlament: {
+    datei: 'ref-parlament.jpg',
+    alt: 'Mitarbeiter mit Reinigungsmaschine vor der Säulenfront des Parlaments in Wien, im Vordergrund die geschwungene Granitmauer',
+    beschreibung: 'Parlament Wien — Naturstein- und Pflasterreinigung',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+  refOebb: {
+    datei: 'ref-oebb.jpg',
+    alt: 'Mitarbeiter entfernt ein großflächiges Graffiti vom Seitenblech einer Lokomotive',
+    beschreibung: 'ÖBB — Graffitientfernung an Schienenfahrzeugen',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
+  // PLATZHALTER — zeigt einen historischen Ornamentboden, stammt aber NICHT
+  // vom Objekt Unteres Belvedere. Vor dem Livegang durch das nachgereichte
+  // Originalfoto ersetzen, sonst steht ein fremdes Objekt unter der Referenz.
+  refBelvedere: {
+    datei: 'ref-belvedere-platzhalter.jpg',
+    alt: 'Historischer Ornamentboden aus Zementfliesen nach der Aufbereitung, die Musterung zeichnet sich klar ab',
+    beschreibung: 'Historischer Ornamentboden (Platzhalterbild)',
+    quelle: 'Langmann Facility Services',
+    kiGeneriert: false,
+  },
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;
