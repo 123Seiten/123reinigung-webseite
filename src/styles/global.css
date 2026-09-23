@@ -13,7 +13,12 @@
   --grey-100:#f3f4f5;
   --white:#ffffff;
   --wrap:1120px;
+  --rand:24px;
   --r:4px;
+}
+
+@media(min-width:600px){
+  :root{--rand:32px}
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -48,7 +53,7 @@ h3.display{font-size:clamp(1.35rem,2.4vw,1.7rem)}
 .num{font-variant-numeric:tabular-nums}
 
 /* ---------- Layout ---------- */
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--rand)}
 .band{padding:clamp(56px,8vw,104px) 0}
 .band--grey{background:var(--grey-100)}
 .band--dark{background:var(--ink);color:var(--white)}
@@ -62,7 +67,7 @@ header{
   position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
   backdrop-filter:blur(8px);border-bottom:4px solid var(--brand);
 }
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:74px;padding:20px 0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:74px;padding-block:20px}
 .logo{display:flex;align-items:center;text-decoration:none;color:var(--ink);min-width:0;flex-shrink:1}
 .logo-img{height:44px;width:auto;max-width:100%;display:block}
 @media(min-width:480px){.logo-img{height:70px}}
@@ -223,7 +228,7 @@ header{
 
 /* ---------- Trust bar ---------- */
 .trust{border-top:1px solid var(--grey-150);border-bottom:1px solid var(--grey-150);background:var(--grey-100)}
-.trust-in{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center;justify-content:center;padding:18px 0}
+.trust-in{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center;justify-content:center;padding-block:18px}
 .trust-in div{display:flex;align-items:center;gap:9px;font-size:.83rem;color:var(--grey-700);font-weight:500}
 .trust-in svg{width:17px;height:17px;flex:0 0 auto;color:var(--brand)}
 
