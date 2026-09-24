@@ -19,12 +19,12 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
           <h3 class="display">Diensteanbieter</h3>
           <p>
             {brand.unternehmen.firmenwortlaut} i. G.<br>
-            23.09.2026: Die 123Reinigung Franchise GmbH befindet sich zum heutigen Zeitpunkt in der Gründungsphase. Fehlende Angaben, wie Firmenbuchnummer, Steuernummer, werden nachgereicht, sobald diese vorliegen.
-          </p>
-          <p>
             {brand.unternehmen.strasse}<br>
             {brand.unternehmen.plz} {brand.unternehmen.ort}<br>
             {brand.unternehmen.land}
+          </p>
+          <p>
+            23.09.2026: Die 123Reinigung Franchise GmbH befindet sich zum heutigen Zeitpunkt in der Gründungsphase. Fehlende Angaben, wie Firmenbuchnummer, Steuernummer, werden nachgereicht, sobald diese vorliegen.
           </p>
           {brand.unternehmen.firmenbuchnummer && <p>Firmenbuchnummer: {brand.unternehmen.firmenbuchnummer}</p>}
           {brand.unternehmen.firmenbuchgericht && <p>Firmenbuchgericht: {brand.unternehmen.firmenbuchgericht}</p>}
