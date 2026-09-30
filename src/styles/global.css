@@ -672,6 +672,10 @@ footer a:hover{color:var(--brand)}
 
 .hero--foto .hero-content{max-width:640px}
 .hero--foto h1{color:var(--white)}
+/* Kontrast auf dem dunklen Hero-Foto nicht gemessen worden wie sonst ueblich —
+   auf ausdruecklichen Wunsch so eingesetzt, obwohl --brand-on-dark hier laut
+   .eyebrow--hero-Kommentar nur ~2,1:1 misst und WCAG AA nicht besteht. */
+.hero-akzent{color:var(--brand-on-dark)}
 .hero-sub--hell{color:#eceff2}
 
 /* Eyebrow in Weiss, NICHT in --brand-on-dark (#29ABE2): dieses Blau kommt
