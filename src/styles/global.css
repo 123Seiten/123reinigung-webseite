@@ -676,6 +676,11 @@ footer a:hover{color:var(--brand)}
    auf ausdruecklichen Wunsch so eingesetzt, obwohl --brand-on-dark hier laut
    .eyebrow--hero-Kommentar nur ~2,1:1 misst und WCAG AA nicht besteht. */
 .hero-akzent{color:var(--brand-on-dark)}
+
+/* Weiss auf --brand-on-dark verstoesst gegen die Kontrastregel aus CLAUDE.md
+   (2,6:1, besteht WCAG AA nicht) — auf ausdruecklichen Wunsch trotzdem so. */
+.hero-cta .btn{background:var(--brand-on-dark)}
+.hero-cta .btn:hover{background:var(--brand)}
 .hero-sub--hell{color:#eceff2}
 
 /* Eyebrow in Weiss, NICHT in --brand-on-dark (#29ABE2): dieses Blau kommt
