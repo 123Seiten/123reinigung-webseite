@@ -707,9 +707,9 @@ footer a:hover{color:var(--brand)}
   /* Hochformat: mittig ist richtig, der Mitarbeiter steht in der Bildmitte */
   .hero--foto .hero-bg-layer img{object-position:center}
 
-  /* Gleicher Abstand oben wie unten — der Textblock steht senkrecht mittig,
-     ober- wie unterhalb bleibt Bild sichtbar */
-  .hero--foto{padding:clamp(88px,31vw,140px) 0}
+  /* Oben deutlich knapper als unten (auf Wunsch, siehe Screenshot-Markierung) —
+     der Textblock steht dadurch nicht mehr exakt senkrecht mittig im Foto. */
+  .hero--foto{padding:clamp(28px,9vw,52px) 0 clamp(88px,31vw,140px)}
 
   /* Eyebrow auf eine Zeile ueber die volle Breite.
      2,95vw statt fester Groesse: Schrift und Laufweite wachsen mit dem
