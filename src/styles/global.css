@@ -609,9 +609,12 @@ footer a:hover{color:var(--brand)}
   position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--white);
   border-top:1px solid var(--grey-300);padding:11px 16px;
   box-shadow:0 -6px 22px -14px rgba(0,0,0,.5);
+  transform:translateY(120%);transition:transform .38s ease;
 }
+.sticky.is-visible{transform:translateY(0)}
 .sticky .btn{width:100%}
 @media(min-width:900px){.sticky{display:none}}
+@media(prefers-reduced-motion:reduce){.sticky{transition:none}}
 @media(max-width:899px){body{padding-bottom:78px}}
 
 @media(prefers-reduced-motion:reduce){
@@ -659,28 +662,22 @@ footer a:hover{color:var(--brand)}
 }
 
 /* Verlauf links dunkel fuer den Text, rechts offen fuer den Mitarbeiter.
-   Gemessen: im Textbereich bleibt weisse Schrift bei 5,5:1 (WCAG AA ab 4,5). */
+   Urspruenglich gemessen bei 5,5:1 (WCAG AA ab 4,5); auf Wunsch um 5
+   Prozentpunkte Deckkraft aufgehellt, damit das Dunkelblau des Akzentworts
+   besser zur Geltung kommt — Kontrast fuer den weissen Text bleibt erhalten. */
 .hero--foto .hero-overlay{
   position:absolute;inset:0;z-index:0;
   background:linear-gradient(100deg,
-    rgba(0,0,0,.78)  0%,
-    rgba(0,0,0,.72) 28%,
-    rgba(0,0,0,.55) 52%,
-    rgba(0,0,0,.30) 74%,
-    rgba(0,0,0,.22) 100%);
+    rgba(0,0,0,.73)  0%,
+    rgba(0,0,0,.67) 28%,
+    rgba(0,0,0,.50) 52%,
+    rgba(0,0,0,.25) 74%,
+    rgba(0,0,0,.17) 100%);
 }
 
 .hero--foto .hero-content{max-width:640px}
 .hero--foto h1{color:var(--white)}
-/* Kontrast auf dem dunklen Hero-Foto nicht gemessen worden wie sonst ueblich —
-   auf ausdruecklichen Wunsch so eingesetzt, obwohl --brand-on-dark hier laut
-   .eyebrow--hero-Kommentar nur ~2,1:1 misst und WCAG AA nicht besteht. */
-.hero-akzent{color:var(--brand-on-dark)}
-
-/* Weiss auf --brand-on-dark verstoesst gegen die Kontrastregel aus CLAUDE.md
-   (2,6:1, besteht WCAG AA nicht) — auf ausdruecklichen Wunsch trotzdem so. */
-.hero-cta .btn{background:var(--brand-on-dark)}
-.hero-cta .btn:hover{background:var(--brand)}
+.hero-akzent{color:var(--brand)}
 .hero-sub--hell{color:#eceff2}
 
 /* Eyebrow in Weiss, NICHT in --brand-on-dark (#29ABE2): dieses Blau kommt
@@ -700,11 +697,11 @@ footer a:hover{color:var(--brand)}
      ueber die gesamte Textzone bleibt weisse Schrift bei mindestens 5,8:1. */
   .hero--foto .hero-overlay{
     background:linear-gradient(180deg,
-      rgba(0,0,0,.62)  0%,
-      rgba(0,0,0,.68) 20%,
-      rgba(0,0,0,.66) 50%,
-      rgba(0,0,0,.56) 78%,
-      rgba(0,0,0,.36) 100%);
+      rgba(0,0,0,.57)  0%,
+      rgba(0,0,0,.63) 20%,
+      rgba(0,0,0,.61) 50%,
+      rgba(0,0,0,.51) 78%,
+      rgba(0,0,0,.31) 100%);
   }
 
   /* Hochformat: mittig ist richtig, der Mitarbeiter steht in der Bildmitte */
